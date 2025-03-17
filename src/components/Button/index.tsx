@@ -22,7 +22,7 @@ const Button = ({title = 'Button', onPress, mT = 0, mB = 0}: Props) => {
           marginBottom: Metrix.VerticalSize(mB),
         },
       ]}>
-      <Typography textAlign="center" color={Colors.black} medium size={17}>
+      <Typography textAlign="center" color={Colors.white} medium size={17}>
         {title}
       </Typography>
     </TouchableOpacity>
@@ -34,8 +34,8 @@ export default Button;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: Metrix.VerticalSize(50),
-    backgroundColor: Colors.green,
+    height: Metrix.VerticalSize(60),
+    backgroundColor: Colors.black,
     borderRadius: Metrix.Radius,
     justifyContent: 'center',
   },

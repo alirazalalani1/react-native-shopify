@@ -1,5 +1,6 @@
-import React = require('react');
-import {ViewStyle} from 'react-native';
+import React from 'react';
+import {TextInput, TextStyle, ViewStyle} from 'react-native';
+import {SvgProps} from 'react-native-svg';
 
 export type FlexProps = {
   mT?: number;
@@ -23,3 +24,36 @@ export type FlexProps = {
   flexWrap?: 'wrap' | 'nowrap';
   style?: ViewStyle;
 };
+
+export type ContainerProps = {
+  pH?: number;
+  children: React.ReactNode;
+  headerTitle: string;
+  headerSubText: string;
+  backIcon?: boolean;
+  contentContainerStyle?: Object;
+  backIconHandler?: boolean;
+  handleBackIcon?: () => void;
+};
+
+export interface InputFieldProps {
+  value: string;
+  onChange?: (text: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  onSubmitEditing?: () => void;
+  placeholder?: string;
+  secureTextEntry?: boolean;
+  focused?: boolean;
+  Icon?: React.FC<SvgProps>;
+  inputRef?: React.RefObject<TextInput>;
+  isPassword?: boolean;
+  autoFocus?: boolean;
+  error?: string;
+  inputStyle?: ViewStyle | TextStyle;
+  rightBtn?: JSX.Element;
+  disabled?: boolean;
+  multiline?: boolean;
+  numPad?: boolean;
+  maxLength?: number;
+}

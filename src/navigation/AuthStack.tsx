@@ -45,7 +45,7 @@ const AuthNavigation = () => {
           },
         },
       }}
-      initialRouteName={Screens.Signup}>
+      initialRouteName={Screens.Signin}>
       {authScreens.map(screen => (
         <AuthStack.Screen
           key={screen.name}

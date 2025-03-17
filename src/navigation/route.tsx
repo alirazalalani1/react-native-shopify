@@ -26,7 +26,7 @@ const Route = () => {
 
   const getInitialRouteName = () => {
     // if (user?.authToken && user?.id) {
-    if (true) {
+    if (false) {
       return Screens.BottomTab;
     }
     return Screens.AuthNavigation;

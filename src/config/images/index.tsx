@@ -1,4 +1,5 @@
 import SearchIcon from '../../assets/images/search-icon.svg';
+import BackIcon from '../../assets/images/back-icon.svg';
 
 import HomeTab from '../../assets/images/home-tab.svg';
 import HomeTabActive from '../../assets/images/home-tab-active.svg';
@@ -17,6 +18,7 @@ export const TAB_SVGS = {
 
 export const SVGS = {
   SearchIcon,
+  BackIcon,
 };
 
 export const Images = {

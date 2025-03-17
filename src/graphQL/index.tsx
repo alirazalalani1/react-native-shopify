@@ -29,4 +29,19 @@ const GET_PRODUCTS = gql`
   }
 `;
 
-export {GET_PRODUCTS};
+const CUSTOMER_LOGIN = gql`
+  mutation CustomerAccessTokenCreate($email: String!, $password: String!) {
+    customerAccessTokenCreate(input: {email: $email, password: $password}) {
+      customerAccessToken {
+        accessToken
+        expiresAt
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export {GET_PRODUCTS, CUSTOMER_LOGIN};
