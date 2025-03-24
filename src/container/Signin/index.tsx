@@ -1,25 +1,29 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Alert} from 'react-native';
-import {useMutation} from '@apollo/client';
+import {useMutation, useQuery} from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {CUSTOMER_LOGIN} from '../../graphQL';
-import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+
+import {CUSTOMER_LOGIN, GET_CUSTOMER} from '../../graphQL';
 import {Button, Container, InputField, Typography} from '../../components';
+import {login} from '../../store/slices/auth.slice';
 
 const Signin = () => {
-  const navigation = useNavigation();
   const [values, setValues] = useState({
     email: 'waleed@nasir.com',
     password: '1234567',
   });
 
+  const dispatch = useDispatch();
   const {email, password} = values;
+  const [authToken, setAuthToken] = useState<string | null>(null);
 
   const [loginUser, {loading}] = useMutation(CUSTOMER_LOGIN, {
     onCompleted: async data => {
       const token =
         data.customerAccessTokenCreate.customerAccessToken?.accessToken;
       const errors = data.customerAccessTokenCreate.userErrors;
+      dispatch(login({user: {email, password}, token: token}));
       if (token) {
         await AsyncStorage.setItem('shopifyToken', token);
       } else {
@@ -30,14 +34,20 @@ const Signin = () => {
       console.log(error);
     },
   });
-
-  const handleLogin = () => {
-    if (!email || !password) {
-      Alert.alert('Error', 'Email and password are required!');
-      return;
-    }
-    loginUser({variables: {email, password}});
+  const prepareApp = async () => {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    const storedToken = await AsyncStorage.getItem('shopifyToken');
+    setAuthToken(storedToken);
   };
+
+  prepareApp();
+
+  const {data, error} = useQuery(GET_CUSTOMER, {
+    variables: {customerAccessToken: authToken},
+  });
+  if (error) {
+    console.log('GET_CUSTOMER Error:', error.message);
+  }
 
   const onChangeHandler = (text: string, field: string) => {
     setValues({...values, [field]: text});
@@ -74,7 +84,7 @@ const Signin = () => {
 
       <Button
         title={loading ? 'Logging in...' : 'Login'}
-        onPress={handleLogin}
+        onPress={() => loginUser({variables: {email, password}})}
         mT={50}
       />
     </Container>

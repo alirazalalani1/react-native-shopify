@@ -36,10 +36,6 @@ const CUSTOMER_LOGIN = gql`
         accessToken
         expiresAt
       }
-      customer {
-        id
-        displayName
-      }
       userErrors {
         field
         message
@@ -48,4 +44,13 @@ const CUSTOMER_LOGIN = gql`
   }
 `;
 
-export {GET_PRODUCTS, CUSTOMER_LOGIN};
+const GET_CUSTOMER = gql`
+  query getCustomer($customerAccessToken: String!) {
+    customer(customerAccessToken: $customerAccessToken) {
+      id
+      displayName
+    }
+  }
+`;
+
+export {GET_PRODUCTS, CUSTOMER_LOGIN, GET_CUSTOMER};
