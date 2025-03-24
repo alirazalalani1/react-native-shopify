@@ -11,6 +11,7 @@ import {
 import {Colors, Metrix, NavigationService, SVGS} from '../../config';
 import {Typography} from '../index';
 import {ContainerProps} from '../../config/type/appDataType';
+import {Images} from '../../config/images';
 
 const Container: React.FC<ContainerProps> = ({
   children,
@@ -27,16 +28,17 @@ const Container: React.FC<ContainerProps> = ({
   }, []);
 
   return (
-    <View style={styles.imageBackground}>
+    <ImageBackground
+      source={Images.AppBackgroundImage}
+      style={styles.imageBackground}>
       <View
         style={[styles.headerContainer, backIcon && styles.backIconContainer]}>
         {!backIcon ? (
-          <></>
+          <SVGS.Logo
+            width={Metrix.HorizontalSize(85)}
+            height={Metrix.VerticalSize(85)}
+          />
         ) : (
-          // <SVGS.Logo
-          //   width={Metrix.HorizontalSize(77)}
-          //   height={Metrix.VerticalSize(70)}
-          // />
           <TouchableOpacity
             activeOpacity={Metrix.ActiveOpacity}
             onPress={() => {
@@ -50,7 +52,7 @@ const Container: React.FC<ContainerProps> = ({
           </TouchableOpacity>
         )}
 
-        <Typography mT={20} color={Colors.black} size={23} bold>
+        <Typography mT={40} color={Colors.black} size={23} bold>
           {headerTitle}
         </Typography>
 
@@ -60,17 +62,6 @@ const Container: React.FC<ContainerProps> = ({
           </Typography>
         )}
       </View>
-
-      {/* <KeyboardAwareScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={contentContainerStyle}
-        keyboardShouldPersistTaps="handled"
-        style={[
-          styles.contentContainer,
-          {paddingHorizontal: Metrix.HorizontalSize(pH)},
-        ]}>
-        {children}
-      </KeyboardAwareScrollView> */}
 
       <KeyboardAvoidingView
         style={{flex: 1}}
@@ -87,7 +78,7 @@ const Container: React.FC<ContainerProps> = ({
           {children}
         </ScrollView>
       </KeyboardAvoidingView>
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -97,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightgreen,
   },
   headerContainer: {
-    marginTop: Metrix.VerticalSize(100),
+    marginTop: Metrix.VerticalSize(60),
     marginBottom: Metrix.VerticalSize(24),
     marginHorizontal: Metrix.HorizontalSize(24),
   },

@@ -1,13 +1,12 @@
 import SearchIcon from '../../assets/images/search-icon.svg';
 import BackIcon from '../../assets/images/back-icon.svg';
+import Logo from '../../assets/images/logo.svg';
 
 import HomeTab from '../../assets/images/home-tab.svg';
 import HomeTabActive from '../../assets/images/home-tab-active.svg';
 
 import ProfileTab from '../../assets/images/profile-tab.svg';
 import ProfileTabActive from '../../assets/images/profile-tab-active.svg';
-
-import dummyImage from '../../assets/images/dummyImage.jpeg';
 
 export const TAB_SVGS = {
   HomeTab,
@@ -19,10 +18,11 @@ export const TAB_SVGS = {
 export const SVGS = {
   SearchIcon,
   BackIcon,
+  Logo,
 };
 
 export const Images = {
-  dummyImage,
+  AppBackgroundImage: require('../../assets/images/app-bg.png'),
 };
 
 export const PLACEHOLDER_IMAGE =

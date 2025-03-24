@@ -64,7 +64,7 @@ const InputField: React.FC<InputFieldProps> = ({
           style={[
             styles.input,
             {
-              color: Colors.green,
+              color: Colors.textV2,
               // fontFamily: value && fonts.bold().fontFamily,
             },
             {textAlignVertical: multiline ? 'top' : 'center'},

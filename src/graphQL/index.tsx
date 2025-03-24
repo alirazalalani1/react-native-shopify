@@ -36,6 +36,10 @@ const CUSTOMER_LOGIN = gql`
         accessToken
         expiresAt
       }
+      customer {
+        id
+        displayName
+      }
       userErrors {
         field
         message

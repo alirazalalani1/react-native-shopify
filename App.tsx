@@ -4,12 +4,14 @@ import {StatusBar, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {ApolloProvider} from '@apollo/client';
+import {Provider} from 'react-redux';
 
 import NavigationService from './src/config/service/navigation';
 import Route from './src/navigation/route';
 import {Colors} from './src/config';
-import {ApolloProvider} from '@apollo/client';
 import client from './src/apolloClient';
+import store from './src/store';
 
 const App = () => {
   return (
@@ -25,7 +27,9 @@ const App = () => {
         <GestureHandlerRootView style={styles.container}>
           <ApolloProvider client={client}>
             <NavigationContainer ref={NavigationService.navigationRef}>
-              <Route />
+              <Provider store={store}>
+                <Route />
+              </Provider>
             </NavigationContainer>
           </ApolloProvider>
         </GestureHandlerRootView>
