@@ -20,9 +20,7 @@ export const BottomTabConfig = () => {
       component: Home,
       icon: (isFocused: boolean) => {
         return (
-          <TAB_SVGS.HomeTab
-            color={isFocused ? Colors.green : Colors.black}
-          />
+          <TAB_SVGS.HomeTab color={isFocused ? Colors.green : Colors.black} />
         );
       },
       iconGray: '1',

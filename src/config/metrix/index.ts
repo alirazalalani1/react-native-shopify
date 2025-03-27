@@ -25,7 +25,7 @@ const HitSlop = {
 export default {
   Radius: VerticalSize(10),
   LightRadius: VerticalSize(6),
-  ActiveOpacity: 0.9,
+  ActiveOpacity: 0.6,
   customFontSize: normalize,
   FontRegular: normalize(17),
   FontExtraSmall: normalize(12),

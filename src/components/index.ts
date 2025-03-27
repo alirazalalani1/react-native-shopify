@@ -7,6 +7,7 @@ import Flex from './Flex';
 import Button from './Button';
 import ImagesCarousel from './ImagesCarousel';
 import InputField from './TextInput';
+import ViewAll from './ViewAll';
 
 export {
   BottomTab,
@@ -18,4 +19,5 @@ export {
   Button,
   ImagesCarousel,
   InputField,
+  ViewAll,
 };
