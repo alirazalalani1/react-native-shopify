@@ -36,6 +36,8 @@ const ProductDetail = ({route}: ProductDetailProps) => {
     fetchData();
   }, []);
 
+  console.log('image', product?.images[3]);
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <ImagesCarousel data={product?.images} />

@@ -1,22 +1,12 @@
 import {useEffect, useState} from 'react';
-import {FlatList, Image, TouchableOpacity, View} from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-import {
-  Container,
-  Flex,
-  ProductCard,
-  SearchField,
-  Typography,
-} from '../../components';
-import {Colors, Metrix} from '../../config';
-import {fetchAllProducts} from '../../shopify';
-import {Images} from '../../config/images';
-import {styles} from './style';
+import {FlatList, Image, View} from 'react-native';
 import {useQuery} from '@apollo/client';
+
+import {Button, ProductCard, Typography} from '../../components';
+import {Colors, Metrix} from '../../config';
+import {Images} from '../../config/images';
 import {GET_PRODUCTS} from '../../graphQL';
-import AppContainer from '../../components/AppContainer';
+import {styles} from './style';
 
 interface Product {
   id: string;
@@ -26,69 +16,65 @@ interface Product {
 
 const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const {data, error, loading} = useQuery(GET_PRODUCTS);
+  const {data} = useQuery(GET_PRODUCTS);
 
   useEffect(() => {
     setProducts(data?.products?.edges);
   }, [data]);
 
   return (
-    <>
-      <View style={styles.header}>
-        <Flex mT={16} justifyContent="space-between">
-          <Flex gap={16}>
-            <Image source={Images.dummyImage} style={styles.imageStyle} />
+    <View
+      style={{paddingHorizontal: 24, backgroundColor: Colors.white, flex: 1}}>
+      <View
+        style={{
+          height: Metrix.VerticalSize(250),
+          backgroundColor: Colors.lightgreen,
+          marginHorizontal: -24,
+          paddingHorizontal: 24,
+        }}>
+        <Image
+          source={Images.HomeBgGirl}
+          style={{
+            marginTop: Metrix.VerticalSize(24),
+            width: '60%',
+            height: '90%',
+            position: 'absolute',
+            right: Metrix.HorizontalSize(-25),
+          }}
+        />
+        <View style={{width: '70%'}}>
+          <Typography size={26} bold mT={50}>
+            Beauty and Core
+          </Typography>
+          <Typography color={Colors.textV2} lineHeight={16} mT={10} size={16}>
+            Labore sunt culpa excepteur culpa ipsum
+          </Typography>
 
-            <View style={{width: '50%'}}>
-              <Typography light size={14} color={Colors.black}>
-                Good Morning 👋
-              </Typography>
-
-              <Typography size={18} mT={4} bold color={Colors.black}>
-                Qurat ul Ain
-              </Typography>
-            </View>
-          </Flex>
-
-          <TouchableOpacity
-            activeOpacity={Metrix.ActiveOpacity}
-            onPress={() => {}}
-            style={styles.notificationCont}>
-            <Icon name="shoppingcart" size={20} color={Colors.black} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            activeOpacity={Metrix.ActiveOpacity}
-            onPress={() => {}}
-            style={styles.notificationCont}>
-            <MaterialIcons
-              name="notifications-none"
-              size={20}
-              color={Colors.black}
-            />
-          </TouchableOpacity>
-        </Flex>
-
-        <SearchField />
+          <Button
+            title="Shop Now"
+            width={120}
+            mT={20}
+            height={40}
+            textSize={14}
+          />
+        </View>
       </View>
 
-      <AppContainer>
-        <Typography mT={24} bold size={18} color={Colors.primary}>
-          All Products
-        </Typography>
+      <Typography mT={24} bold size={18} color={Colors.primary}>
+        All Products
+      </Typography>
 
-        <FlatList
-          data={products}
-          keyExtractor={item => item.id}
-          numColumns={2}
-          columnWrapperStyle={{justifyContent: 'space-between'}}
-          showsVerticalScrollIndicator={false}
-          renderItem={({item}) => <ProductCard item={item} />}
-          style={styles.flatlist}
-          contentContainerStyle={styles.contentContainer}
-        />
-      </AppContainer>
-    </>
+      <FlatList
+        data={products}
+        keyExtractor={item => item.id}
+        numColumns={2}
+        columnWrapperStyle={{justifyContent: 'space-between'}}
+        showsVerticalScrollIndicator={false}
+        renderItem={({item}) => <ProductCard item={item} />}
+        style={styles.flatlist}
+        contentContainerStyle={styles.contentContainer}
+      />
+    </View>
   );
 };
 

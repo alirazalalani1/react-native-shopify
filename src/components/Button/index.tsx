@@ -8,9 +8,20 @@ type Props = {
   onPress?: () => void;
   mT?: number;
   mB?: number;
+  width?: number | string;
+  height?: number;
+  textSize?: number;
 };
 
-const Button = ({title = 'Button', onPress, mT = 0, mB = 0}: Props) => {
+const Button = ({
+  title = 'Button',
+  onPress,
+  mT = 0,
+  mB = 0,
+  width = '100%',
+  height = 60,
+  textSize = 17,
+}: Props) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -20,9 +31,15 @@ const Button = ({title = 'Button', onPress, mT = 0, mB = 0}: Props) => {
         {
           marginTop: Metrix.VerticalSize(mT),
           marginBottom: Metrix.VerticalSize(mB),
+          width: Metrix.HorizontalSize(width),
+          height: Metrix.VerticalSize(height),
         },
       ]}>
-      <Typography textAlign="center" color={Colors.white} medium size={17}>
+      <Typography
+        textAlign="center"
+        color={Colors.white}
+        medium
+        size={textSize}>
         {title}
       </Typography>
     </TouchableOpacity>
@@ -33,7 +50,7 @@ export default Button;
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    // width: '100%',
     height: Metrix.VerticalSize(60),
     backgroundColor: Colors.black,
     borderRadius: Metrix.Radius,
