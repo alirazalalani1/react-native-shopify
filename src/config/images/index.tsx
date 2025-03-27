@@ -23,6 +23,7 @@ export const SVGS = {
 
 export const Images = {
   AppBackgroundImage: require('../../assets/images/app-bg.png'),
+  dummyImage: require('../../assets/images/dummyImage.jpeg'),
 };
 
 export const PLACEHOLDER_IMAGE =

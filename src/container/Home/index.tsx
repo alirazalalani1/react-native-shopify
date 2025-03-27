@@ -16,6 +16,7 @@ import {Images} from '../../config/images';
 import {styles} from './style';
 import {useQuery} from '@apollo/client';
 import {GET_PRODUCTS} from '../../graphQL';
+import AppContainer from '../../components/AppContainer';
 
 interface Product {
   id: string;
@@ -26,23 +27,10 @@ interface Product {
 const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const {data, error, loading} = useQuery(GET_PRODUCTS);
-  console.log('dataaaa', data);
 
   useEffect(() => {
     setProducts(data?.products?.edges);
   }, [data]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const data = await fetchAllProducts();
-  //       setProducts(data);
-  //     } catch (error) {
-  //       console.error('Error fetching products: ', error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
 
   return (
     <>
@@ -84,7 +72,7 @@ const Home = () => {
         <SearchField />
       </View>
 
-      <Container>
+      <AppContainer>
         <Typography mT={24} bold size={18} color={Colors.primary}>
           All Products
         </Typography>
@@ -99,7 +87,7 @@ const Home = () => {
           style={styles.flatlist}
           contentContainerStyle={styles.contentContainer}
         />
-      </Container>
+      </AppContainer>
     </>
   );
 };

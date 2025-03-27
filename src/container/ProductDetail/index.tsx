@@ -1,11 +1,11 @@
 import {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {Button, Container, ImagesCarousel, Typography} from '../../components';
 import {ProductDetailProps} from '../../config/type/navigation';
 import {fetchSingleProduct} from '../../shopify';
-import {Colors} from '../../config';
+import {Colors, Metrix} from '../../config';
 import {styles} from './style';
 
 export interface ProductType {
@@ -39,7 +39,13 @@ const ProductDetail = ({route}: ProductDetailProps) => {
 
   return (
     <>
-      <Container scrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{
+          flex: 1,
+          paddingHorizontal: Metrix.HorizontalSize(24),
+          backgroundColor: Colors.white,
+        }}>
         <ImagesCarousel data={product?.images} />
 
         {product?.availableForSale && (
@@ -81,7 +87,7 @@ const ProductDetail = ({route}: ProductDetailProps) => {
         })}
 
         <Button title="Add to Cart" mT={24} mB={32} />
-      </Container>
+      </ScrollView>
     </>
   );
 };
