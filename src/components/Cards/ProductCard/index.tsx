@@ -38,7 +38,10 @@ const ProductCard: React.FC<Props> = ({item}) => {
       style={styles.container}
       activeOpacity={Metrix.ActiveOpacity}
       onPress={() =>
-        navigation.navigate('ProductDetail', {productId: data.id})
+        navigation.navigate('ProductDetail', {
+          productId: data.id,
+          amount: item?.node?.variants?.edges[0]?.node?.priceV2?.amount || 0,
+        })
       }>
       <Image
         source={{uri: imageData[0]?.node?.src}}

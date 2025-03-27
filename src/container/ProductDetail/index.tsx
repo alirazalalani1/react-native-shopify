@@ -1,12 +1,12 @@
 import {useEffect, useState} from 'react';
-import {ScrollView, View} from 'react-native';
+import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import {Button, Container, ImagesCarousel, Typography} from '../../components';
+import {Button, Flex, ImagesCarousel, Typography} from '../../components';
 import {ProductDetailProps} from '../../config/type/navigation';
 import {fetchSingleProduct} from '../../shopify';
-import {Colors, Metrix} from '../../config';
-import {styles} from './style';
+import {Colors} from '../../config';
+import styles from './style';
 
 export interface ProductType {
   id: string;
@@ -17,7 +17,7 @@ export interface ProductType {
 }
 
 const ProductDetail = ({route}: ProductDetailProps) => {
-  const {productId} = route.params;
+  const {productId, amount} = route.params;
   const [product, setProduct] = useState<ProductType | null>(null);
   const [description, setDescription] = useState<string[]>([]);
 
@@ -27,8 +27,7 @@ const ProductDetail = ({route}: ProductDetailProps) => {
         const data = await fetchSingleProduct(productId);
         setProduct(data);
         if (data?.description) {
-          const splittedDesc = data?.description.split('. ');
-          setDescription(splittedDesc);
+          setDescription(data.description.split('. '));
         }
       } catch (error) {
         console.error('Error fetching product: ', error);
@@ -38,57 +37,78 @@ const ProductDetail = ({route}: ProductDetailProps) => {
   }, []);
 
   return (
-    <>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{
-          flex: 1,
-          paddingHorizontal: Metrix.HorizontalSize(24),
-          backgroundColor: Colors.white,
-        }}>
-        <ImagesCarousel data={product?.images} />
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+      <ImagesCarousel data={product?.images} />
 
-        {product?.availableForSale && (
-          <View style={styles.saleBadgeCont}>
-            <Typography
-              mL={-3}
-              textAlign="center"
-              medium
-              size={15}
-              color={Colors.black}>
-              Sale
-            </Typography>
-          </View>
-        )}
-
-        <View style={styles.wishlistCont}>
-          <Icon
-            name="hearto"
-            style={{textAlign: 'center'}}
-            size={18}
-            color={Colors.darkgreen}
-          />
+      {product?.availableForSale && (
+        <View style={styles.saleBadgeCont}>
+          <Typography textAlign="center" medium size={15} color={Colors.black}>
+            Sale
+          </Typography>
         </View>
-        <Typography mT={20} bold size={22} color={Colors.primary}>
+      )}
+
+      <Flex mT={20} justifyContent="space-between" alignItems="center">
+        <Typography bold size={22} color={Colors.primary}>
           {product?.title}
         </Typography>
+        <View style={styles.wishlistCont}>
+          <Icon name="hearto" size={16} color={Colors.darkgreen} />
+        </View>
+      </Flex>
 
-        {description.map((desc, i) => {
-          return (
-            <Typography
-              key={i}
-              lineHeight={18}
-              mT={20}
-              size={15}
-              color={Colors.text}>
-              {desc}.
+      <Flex gap={10}>
+        <Typography color={Colors.green} bold size={14}>
+          IN STOCK
+        </Typography>
+        <Flex alignItems="center" gap={4}>
+          <Typography size={14}>5.0</Typography>
+          <Image
+            source={require('../../assets/images/star.png')}
+            style={styles.starIcon}
+          />
+        </Flex>
+      </Flex>
+
+      {amount > 0 && (
+        <Flex justifyContent="space-between">
+          <Typography size={18} mT={16} bold color={Colors.black}>
+            £{amount}
+          </Typography>
+          <Flex
+            style={styles.counterContainer}
+            justifyContent="space-around"
+            alignItems="center">
+            <TouchableOpacity hitSlop={styles.hitSlop}>
+              <Typography size={24} light>
+                -
+              </Typography>
+            </TouchableOpacity>
+            <Typography size={18} light>
+              0
             </Typography>
-          );
-        })}
+            <TouchableOpacity hitSlop={styles.hitSlop}>
+              <Typography size={24} light>
+                +
+              </Typography>
+            </TouchableOpacity>
+          </Flex>
+        </Flex>
+      )}
 
-        <Button title="Add to Cart" mT={24} mB={32} />
-      </ScrollView>
-    </>
+      {description.map((desc, i) => (
+        <Typography
+          key={i}
+          lineHeight={18}
+          mT={20}
+          size={15}
+          color={Colors.text}>
+          {desc}.
+        </Typography>
+      ))}
+
+      <Button title="+ Add to Cart" mT={24} mB={32} />
+    </ScrollView>
   );
 };
 
