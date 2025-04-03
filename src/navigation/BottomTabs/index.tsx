@@ -45,6 +45,7 @@ const HomeTabs = () => {
                         borderRadius: 4,
                         backgroundColor: Colors.green,
                         marginTop: Metrix.VerticalSize(4),
+                        marginBottom: Metrix.VerticalSize(1),
                       }}
                     />
                   )}
@@ -82,12 +83,12 @@ const HomeTabs = () => {
         component={bottomTabConfig.Products.component}
       />
       <HomeTabNavigation.Screen
-        name={'E'}
-        component={bottomTabConfig.Home.component}
+        name={bottomTabConfig.Wishlist.screenName}
+        component={bottomTabConfig.Wishlist.component}
       />
       <HomeTabNavigation.Screen
-        name={'Profile'}
-        component={bottomTabConfig.Products.component}
+        name={bottomTabConfig.Profile.screenName}
+        component={bottomTabConfig.Profile.component}
       />
     </HomeTabNavigation.Navigator>
   );

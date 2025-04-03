@@ -4,6 +4,7 @@ import Logo from '../../assets/images/logo.svg';
 
 import HomeTab from '../../assets/images/home-tab.svg';
 import HomeTabActive from '../../assets/images/home-tab-active.svg';
+import Wishlist from '../../assets/images/heart.svg';
 
 import ProfileTab from '../../assets/images/profile-tab.svg';
 import ProfileTabActive from '../../assets/images/profile-tab-active.svg';
@@ -13,6 +14,7 @@ export const TAB_SVGS = {
   HomeTabActive,
   ProfileTab,
   ProfileTabActive,
+  Wishlist,
 };
 
 export const SVGS = {

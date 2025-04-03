@@ -24,13 +24,14 @@ export const styles = StyleSheet.create({
     width: '70%',
   },
   flatlist: {
-    paddingHorizontal: Metrix.HorizontalSize(5),
-    marginHorizontal: Metrix.HorizontalSize(-5),
+    paddingHorizontal: Metrix.HorizontalSize(24),
+    marginHorizontal: Metrix.HorizontalSize(-24),
     marginTop: Metrix.VerticalSize(22),
   },
   contentContainer: {
     paddingBottom: Metrix.VerticalSize(75),
     paddingTop: Metrix.VerticalSize(2),
+    gap: Metrix.HorizontalSize(12),
   },
   columnWrapper: {
     justifyContent: 'space-between',

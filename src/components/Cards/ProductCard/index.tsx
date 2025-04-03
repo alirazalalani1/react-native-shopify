@@ -1,4 +1,4 @@
-import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
@@ -31,8 +31,6 @@ const ProductCard: React.FC<Props> = ({item}) => {
   const data = item?.node;
   const imageData = item?.node?.images?.edges;
 
-  console.log(item?.node?.variants?.edges[0]?.node?.priceV2?.amount);
-
   return (
     <TouchableOpacity
       style={styles.container}
@@ -43,6 +41,11 @@ const ProductCard: React.FC<Props> = ({item}) => {
           amount: item?.node?.variants?.edges[0]?.node?.priceV2?.amount || 0,
         })
       }>
+      <View style={styles.saleBadgeCont}>
+        <Typography textAlign="center" medium size={11} color={Colors.white}>
+          SALE
+        </Typography>
+      </View>
       <Image
         source={{uri: imageData[0]?.node?.src}}
         style={{width: 100, height: 100}}
@@ -78,5 +81,19 @@ const styles = StyleSheet.create({
     marginBottom: Metrix.VerticalSize(20),
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
+  },
+
+  saleBadgeCont: {
+    width: Metrix.HorizontalSize(50),
+    padding: Metrix.HorizontalSize(4),
+    backgroundColor: '#a3d2a2',
+    position: 'absolute',
+    overflow: 'hidden',
+    // top: Metrix.VerticalSize(20),
+    // borderRadius: 4,
+    right: 0,
+    top: 0,
+    zIndex: 1,
   },
 });

@@ -1,3 +1,4 @@
+import {Metrix} from '../../config';
 import {Colors} from '../../config/color';
 import {TAB_SVGS} from '../../config/images';
 import {Home, Products} from '../../container';
@@ -29,6 +30,36 @@ export const BottomTabConfig = () => {
     },
     Products: {
       screenName: 'Products',
+      component: Products,
+      icon: (isFocused: boolean) => {
+        return (
+          <TAB_SVGS.ProfileTab
+            color={isFocused ? Colors.green : Colors.textV2}
+          />
+        );
+      },
+      iconGray: '1',
+      headerShown: false,
+      label: 'Rewards',
+    },
+    Wishlist: {
+      screenName: 'Wishlist',
+      component: Products,
+      icon: (isFocused: boolean) => {
+        return (
+          <TAB_SVGS.Wishlist
+            width={Metrix.HorizontalSize(25)}
+            height={Metrix.VerticalSize(25)}
+            color={isFocused ? Colors.green : Colors.textV2}
+          />
+        );
+      },
+      iconGray: '1',
+      headerShown: false,
+      label: 'Rewards',
+    },
+    Profile: {
+      screenName: 'Profile',
       component: Products,
       icon: (isFocused: boolean) => {
         return (

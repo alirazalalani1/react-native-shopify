@@ -21,6 +21,7 @@ const Home = () => {
   useEffect(() => {
     setProducts(data?.products?.edges);
   }, [data]);
+  console.log('products', data);
 
   return (
     <View style={styles.container}>
@@ -42,16 +43,18 @@ const Home = () => {
           />
         </View>
       </View>
-      <ViewAll text="All Products" showViewAll />
+      <ViewAll text="Trending Products" showViewAll />
       <FlatList
         data={products}
         keyExtractor={item => item.id}
-        numColumns={2}
-        columnWrapperStyle={styles.columnWrapper}
+        // numColumns={2}
+        // columnWrapperStyle={styles.columnWrapper}
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => <ProductCard item={item} />}
         style={styles.flatlist}
         contentContainerStyle={styles.contentContainer}
+        horizontal
+        pagingEnabled
       />
     </View>
   );

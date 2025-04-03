@@ -20,7 +20,6 @@ const ImagesCarousel = ({data}: any) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const scrollToIndexx = (index: number) => {
-    console.log('function called');
     flatlistRef?.current?.scrollToIndex({animated: true, index: index});
     setCurrentIndex(index);
   };
