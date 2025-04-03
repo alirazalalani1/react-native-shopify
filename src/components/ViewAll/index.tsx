@@ -6,8 +6,9 @@ import {Colors, Metrix} from '../../config';
 interface Props {
   text: string;
   showViewAll?: boolean;
+  mB?: number;
 }
-const ViewAll = ({text, showViewAll}: Props) => {
+const ViewAll = ({text, showViewAll, mB = 0}: Props) => {
   return (
     <Flex
       style={{
@@ -15,7 +16,8 @@ const ViewAll = ({text, showViewAll}: Props) => {
         borderBottomWidth: 1,
         paddingBottom: Metrix.VerticalSize(10),
       }}
-      mT={24}>
+      mT={24}
+      mB={mB}>
       <Typography bold size={18} color={Colors.primary}>
         {text}
       </Typography>

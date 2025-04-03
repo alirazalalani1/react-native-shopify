@@ -2,7 +2,7 @@ import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import {Colors, Metrix} from '../../../config';
+import {Colors, Metrix, SVGS} from '../../../config';
 import {Flex, Typography} from '../../index';
 
 export interface Variant {
@@ -45,6 +45,24 @@ const ProductCard: React.FC<Props> = ({item}) => {
         <Typography textAlign="center" medium size={11} color={Colors.white}>
           SALE
         </Typography>
+      </View>
+
+      <View
+        style={{
+          position: 'absolute',
+
+          top: Metrix.VerticalSize(10),
+          left: Metrix.HorizontalSize(10),
+        }}>
+        <Flex gap={2}>
+          <Image
+            source={require('../../../assets/images/star.png')}
+            style={styles.starIcon}
+          />
+          <Typography mT={2} size={12} medium>
+            5.0
+          </Typography>
+        </Flex>
       </View>
       <Image
         source={{uri: imageData[0]?.node?.src}}
@@ -95,5 +113,9 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     zIndex: 1,
+  },
+  starIcon: {
+    width: Metrix.HorizontalSize(15),
+    height: Metrix.VerticalSize(15),
   },
 });

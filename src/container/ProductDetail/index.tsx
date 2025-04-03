@@ -20,6 +20,7 @@ const ProductDetail = ({route}: ProductDetailProps) => {
   const {productId, amount} = route.params;
   const [product, setProduct] = useState<ProductType | null>(null);
   const [description, setDescription] = useState<string[]>([]);
+  const [quantity, setQuantity] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {

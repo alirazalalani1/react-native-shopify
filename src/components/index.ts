@@ -8,6 +8,7 @@ import Button from './Button';
 import ImagesCarousel from './ImagesCarousel';
 import InputField from './TextInput';
 import ViewAll from './ViewAll';
+import Banner from './Banner';
 
 export {
   BottomTab,
@@ -20,4 +21,5 @@ export {
   ImagesCarousel,
   InputField,
   ViewAll,
+  Banner,
 };

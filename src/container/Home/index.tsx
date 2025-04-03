@@ -1,10 +1,8 @@
 import {useEffect, useState} from 'react';
-import {FlatList, Image, View} from 'react-native';
+import {FlatList, ScrollView} from 'react-native';
 import {useQuery} from '@apollo/client';
 
-import {Button, ProductCard, Typography, ViewAll} from '../../components';
-import {Colors, Metrix} from '../../config';
-import {Images} from '../../config/images';
+import {Banner, ProductCard, ViewAll} from '../../components';
 import {GET_PRODUCTS} from '../../graphQL';
 import {styles} from './style';
 
@@ -21,42 +19,51 @@ const Home = () => {
   useEffect(() => {
     setProducts(data?.products?.edges);
   }, [data]);
-  console.log('products', data);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={Images.HomeBgGirl} style={styles.headerImage} />
-        <View style={styles.headerTextContainer}>
-          <Typography size={26} bold mT={50}>
-            Beauty and Core
-          </Typography>
-          <Typography color={Colors.textV2} lineHeight={16} mT={10} size={16}>
-            Labore sunt culpa excepteur culpa ipsum
-          </Typography>
-          <Button
-            title="Shop Now"
-            width={120}
-            mT={20}
-            height={40}
-            textSize={14}
-          />
-        </View>
-      </View>
+    <ScrollView style={styles.container}>
+      <Banner
+        title="Beauty and Core"
+        subtitle=" Labore sunt culpa excepteur culpa ipsum"
+        buttonText="Shop Now"
+        onPress={() => {}}
+      />
       <ViewAll text="Trending Products" showViewAll />
+
       <FlatList
         data={products}
         keyExtractor={item => item.id}
-        // numColumns={2}
-        // columnWrapperStyle={styles.columnWrapper}
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => <ProductCard item={item} />}
         style={styles.flatlist}
         contentContainerStyle={styles.contentContainer}
         horizontal
         pagingEnabled
+        showsHorizontalScrollIndicator={false}
       />
-    </View>
+
+      <Banner
+        title="Get Your 50% Off!"
+        subtitle=" Labore sunt culpa excepteur culpa ipsum"
+        buttonText="Shop Now"
+        onPress={() => {}}
+      />
+
+      <ViewAll text="New Arrivals" showViewAll />
+
+      <FlatList
+        data={products}
+        keyExtractor={item => item.id}
+        showsVerticalScrollIndicator={false}
+        renderItem={({item}) => <ProductCard item={item} />}
+        style={styles.flatlist}
+        contentContainerStyle={styles.contentContainer}
+        columnWrapperStyle={styles.columnWrapper}
+        numColumns={2}
+        showsHorizontalScrollIndicator={false}
+        scrollEnabled={false}
+      />
+    </ScrollView>
   );
 };
 
