@@ -58,7 +58,11 @@ const ProductDetail = ({route}: ProductDetailProps) => {
   const [createCart] = useMutation(CREATE_CART, {
     onCompleted: async data => {
       const cartId = data?.cartCreate?.cart?.id;
+      const checkoutUrl = data?.cartCreate?.cart?.checkoutUrl;
       await AsyncStorage.setItem('cartId', cartId);
+      await AsyncStorage.setItem('checkoutUrl', checkoutUrl);
+
+      console.log("'Cart created:', cartId);");
     },
     onError: error => {
       console.error('Error creating cart:', error);

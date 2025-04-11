@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Linking, StyleSheet, View} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useQuery} from '@apollo/client';
 
@@ -26,19 +26,32 @@ const Wishlist = () => {
 
   console.log(data?.cart?.lines?.edges?.length);
 
+  const checkoutHandler = async () => {
+    const checkoutUrl = await AsyncStorage.getItem('checkoutUrl');
+    Linking.openURL(checkoutUrl);
+  };
+
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       {data?.cart?.lines?.edges?.map((item: any) => {
+        console.log('item', item);
         return (
           <View>
             <Typography color="#000" key={item.node.id}>
               {item.node.merchandise.title}qq
             </Typography>
+
+            <Button
+              title="Buy Now"
+              width={200}
+              mT={16}
+              onPress={() => {
+                checkoutHandler();
+              }}
+            />
           </View>
         );
       })}
-
-      <Button title="Buy Now" width={200} mT={16} onPress={() => {}} />
     </View>
   );
 };

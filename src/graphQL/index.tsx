@@ -53,61 +53,84 @@ const GET_CUSTOMER = gql`
   }
 `;
 
+// const CREATE_CART = gql`
+//   mutation CreateCart {
+//     cartCreate {
+//       cart {
+//         id
+//         createdAt
+//         updatedAt
+//         lines(first: 10) {
+//           edges {
+//             node {
+//               id
+//               merchandise {
+//                 ... on ProductVariant {
+//                   id
+//                 }
+//               }
+//             }
+//           }
+//         }
+
+//         buyerIdentity {
+//           deliveryAddressPreferences {
+//             __typename
+//           }
+//           preferences {
+//             delivery {
+//               deliveryMethod
+//             }
+//           }
+//         }
+//         attributes {
+//           key
+//           value
+//         }
+//         cost {
+//           totalAmount {
+//             amount
+//             currencyCode
+//           }
+//           # The estimated amount, before taxes and discounts, for the customer to pay at checkout.
+//           subtotalAmount {
+//             amount
+//             currencyCode
+//           }
+//           # The estimated tax amount for the customer to pay at checkout.
+//           totalTaxAmount {
+//             amount
+//             currencyCode
+//           }
+//           # The estimated duty amount for the customer to pay at checkout.
+//           totalDutyAmount {
+//             amount
+//             currencyCode
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+
 const CREATE_CART = gql`
-  mutation CreateCart {
-    cartCreate {
+  mutation cartCreate($input: CartInput) {
+    cartCreate(input: $input) {
       cart {
         id
-        createdAt
-        updatedAt
+        checkoutUrl
         lines(first: 10) {
           edges {
             node {
               id
-              merchandise {
-                ... on ProductVariant {
-                  id
-                }
-              }
+              quantity
             }
           }
         }
-
-        buyerIdentity {
-          deliveryAddressPreferences {
-            __typename
-          }
-          preferences {
-            delivery {
-              deliveryMethod
-            }
-          }
-        }
-        attributes {
-          key
-          value
-        }
-        cost {
-          totalAmount {
-            amount
-            currencyCode
-          }
-          # The estimated amount, before taxes and discounts, for the customer to pay at checkout.
-          subtotalAmount {
-            amount
-            currencyCode
-          }
-          # The estimated tax amount for the customer to pay at checkout.
-          totalTaxAmount {
-            amount
-            currencyCode
-          }
-          # The estimated duty amount for the customer to pay at checkout.
-          totalDutyAmount {
-            amount
-            currencyCode
-          }
-        }
+      }
+      userErrors {
+        field
+        message
       }
     }
   }
@@ -163,6 +186,17 @@ const ADD_TO_CART = gql`
   }
 `;
 
+const CHECKOUT_URL = gql`
+  mutation CheckoutCreate($lineItems: [CheckoutLineItemInput!]!) {
+    checkoutCreate(input: {lineItems: $lineItems}) {
+      checkout {
+        id
+        webUrl
+      }
+    }
+  }
+`;
+
 export {
   GET_PRODUCTS,
   CUSTOMER_LOGIN,
@@ -170,4 +204,5 @@ export {
   CREATE_CART,
   GET_CART,
   ADD_TO_CART,
+  CHECKOUT_URL,
 };
