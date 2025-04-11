@@ -13,12 +13,32 @@ interface BannerProps {
 const Banner = ({title, subtitle, buttonText, onPress}: BannerProps) => {
   return (
     <View style={styles.header}>
-      <Image source={Images.HomeBgGirl} style={styles.headerImage} />
+      <Image
+        source={Images.HomeBgGirl}
+        style={{
+          width: Metrix.HorizontalSize(200),
+          height: Metrix.VerticalSize(250),
+          resizeMode: 'cover',
+          // backgroundColor: 'pink',
+          position: 'absolute',
+          right: Metrix.HorizontalSize(-25),
+        }}
+      />
+
       <View style={styles.headerTextContainer}>
         <Typography size={26} bold mT={50}>
           {title}
         </Typography>
-        <Typography color={Colors.textV2} lineHeight={16} mT={10} size={16}>
+        <Typography
+          color={Colors.textV2}
+          style={{
+            textShadowColor: 'rgba(245, 245, 245, 0.75)',
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 15,
+          }}
+          lineHeight={16}
+          mT={10}
+          size={16}>
           {subtitle}
         </Typography>
         <Button
@@ -43,11 +63,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   headerImage: {
-    marginTop: Metrix.VerticalSize(24),
-    width: '60%',
-    height: '90%',
-    position: 'absolute',
-    right: Metrix.HorizontalSize(-25),
+    // marginTop: Metrix.VerticalSize(24),
+    // width: '70%',
+    // height: '100%',
+    // position: 'absolute',
+    // right: Metrix.HorizontalSize(-25),
   },
   headerTextContainer: {
     width: '70%',

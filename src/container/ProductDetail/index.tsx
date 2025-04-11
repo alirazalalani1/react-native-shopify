@@ -2,11 +2,19 @@ import {useEffect, useState} from 'react';
 import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import {Button, Flex, ImagesCarousel, Typography} from '../../components';
+import {
+  BackHeader,
+  Button,
+  Flex,
+  ImagesCarousel,
+  Typography,
+} from '../../components';
 import {ProductDetailProps} from '../../config/type/navigation';
 import {fetchSingleProduct} from '../../shopify';
 import {Colors} from '../../config';
 import styles from './style';
+import {useMutation} from '@apollo/client';
+import {CREATE_CART} from '../../graphQL';
 
 export interface ProductType {
   id: string;
@@ -37,79 +45,114 @@ const ProductDetail = ({route}: ProductDetailProps) => {
     fetchData();
   }, []);
 
+  const increaseQuantity = () => setQuantity(prev => prev + 1);
+  const decreaseQuantity = () => setQuantity(prev => (prev > 0 ? prev - 1 : 0));
+
+  const [createCart] = useMutation(CREATE_CART, {
+    onCompleted: data => {
+      console.log('Cart created successfully:', data?.cartCreate?.cart?.id);
+      // console.log(
+      //   'Cart created successfully:',
+      //   data?.cartCreate?.cart?.cost?.totalAmount,
+      // );
+      console.log('Cart created successfully:', data?.cartCreate?.cart);
+    },
+    onError: error => {
+      console.error('Error creating cart:', error);
+    },
+  });
+
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-      <ImagesCarousel data={product?.images} />
+    <>
+      <BackHeader />
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+        <ImagesCarousel data={product?.images} />
 
-      {product?.availableForSale && (
-        <View style={styles.saleBadgeCont}>
-          <Typography textAlign="center" medium size={15} color={Colors.black}>
-            Sale
-          </Typography>
-        </View>
-      )}
-
-      <Flex mT={20} justifyContent="space-between" alignItems="center">
-        <Typography bold size={22} color={Colors.primary}>
-          {product?.title}
-        </Typography>
-        <View style={styles.wishlistCont}>
-          <Icon name="hearto" size={16} color={Colors.darkgreen} />
-        </View>
-      </Flex>
-
-      <Flex gap={10}>
-        <Typography color={Colors.green} bold size={14}>
-          IN STOCK
-        </Typography>
-        <Flex alignItems="center" gap={4}>
-          <Typography size={14}>5.0</Typography>
-          <Image
-            source={require('../../assets/images/star.png')}
-            style={styles.starIcon}
-          />
-        </Flex>
-      </Flex>
-
-      {amount > 0 && (
-        <Flex justifyContent="space-between">
-          <Typography size={18} mT={16} bold color={Colors.black}>
-            £{amount}
-          </Typography>
-          <Flex
-            style={styles.counterContainer}
-            justifyContent="space-around"
-            alignItems="center">
-            <TouchableOpacity hitSlop={styles.hitSlop}>
-              <Typography size={24} light>
-                -
-              </Typography>
-            </TouchableOpacity>
-            <Typography size={18} light>
-              0
+        {product?.availableForSale && (
+          <View style={styles.saleBadgeCont}>
+            <Typography
+              textAlign="center"
+              medium
+              size={15}
+              color={Colors.black}>
+              Sale
             </Typography>
-            <TouchableOpacity hitSlop={styles.hitSlop}>
-              <Typography size={24} light>
-                +
-              </Typography>
-            </TouchableOpacity>
+          </View>
+        )}
+
+        <Flex mT={20} justifyContent="space-between" alignItems="center">
+          <Typography bold size={22} color={Colors.primary}>
+            {product?.title}
+          </Typography>
+          <View style={styles.wishlistCont}>
+            <Icon name="hearto" size={16} color={Colors.darkgreen} />
+          </View>
+        </Flex>
+
+        <Flex gap={10}>
+          <Typography color={Colors.green} bold size={14}>
+            IN STOCK
+          </Typography>
+          <Flex alignItems="center" gap={4}>
+            <Typography size={14}>5.0</Typography>
+            <Image
+              source={require('../../assets/images/star.png')}
+              style={styles.starIcon}
+            />
           </Flex>
         </Flex>
-      )}
 
-      {description.map((desc, i) => (
-        <Typography
-          key={i}
-          lineHeight={18}
-          mT={20}
-          size={15}
-          color={Colors.text}>
-          {desc}.
-        </Typography>
-      ))}
+        {amount > 0 && (
+          <Flex justifyContent="space-between">
+            <Typography size={18} mT={16} bold color={Colors.black}>
+              £{amount}
+            </Typography>
+            <Flex
+              style={styles.counterContainer}
+              justifyContent="space-around"
+              alignItems="center">
+              <TouchableOpacity
+                hitSlop={styles.hitSlop}
+                onPress={decreaseQuantity}>
+                <Typography size={24} light>
+                  -
+                </Typography>
+              </TouchableOpacity>
+              <Typography size={18} light>
+                {quantity === 0 ? '0' : quantity}
+              </Typography>
+              <TouchableOpacity
+                hitSlop={styles.hitSlop}
+                onPress={increaseQuantity}>
+                <Typography size={24} light>
+                  +
+                </Typography>
+              </TouchableOpacity>
+            </Flex>
+          </Flex>
+        )}
 
-      <Button title="+ Add to Cart" mT={24} mB={32} />
-    </ScrollView>
+        {description.map((desc, i) => (
+          <Typography
+            key={i}
+            lineHeight={18}
+            mT={20}
+            size={15}
+            color={Colors.text}>
+            {desc}.
+          </Typography>
+        ))}
+
+        <Button
+          title="+ Add to Cart"
+          mT={24}
+          mB={32}
+          onPress={() => {
+            createCart();
+          }}
+        />
+      </ScrollView>
+    </>
   );
 };
 

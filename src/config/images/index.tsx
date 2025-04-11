@@ -5,6 +5,7 @@ import Logo from '../../assets/images/logo.svg';
 import HomeTab from '../../assets/images/home-tab.svg';
 import HomeTabActive from '../../assets/images/home-tab-active.svg';
 import Wishlist from '../../assets/images/heart.svg';
+import Cart from '../../assets/images/cart.svg';
 
 import ProfileTab from '../../assets/images/profile-tab.svg';
 import ProfileTabActive from '../../assets/images/profile-tab-active.svg';
@@ -21,12 +22,13 @@ export const SVGS = {
   SearchIcon,
   BackIcon,
   Logo,
+  Cart,
 };
 
 export const Images = {
   AppBackgroundImage: require('../../assets/images/app-bg.png'),
   dummyImage: require('../../assets/images/dummyImage.jpeg'),
-  HomeBgGirl: require('../../assets/images/home-bg.png'),
+  HomeBgGirl: require('../../assets/images/home-bg-final.png'),
 };
 
 export const PLACEHOLDER_IMAGE =
