@@ -20,15 +20,17 @@ const Home = () => {
     setProducts(data?.products?.edges);
   }, [data]);
 
+  console.log('products', products[0]);
+
   return (
     <ScrollView style={styles.container}>
       <Banner
         title="Beauty and Core"
-        subtitle=" Labore sunt culpa excepteur culpa ipsum"
+        subtitle="Labore sunt culpa excepteur culpa ipsum"
         buttonText="Shop Now"
         onPress={() => {}}
       />
-      <ViewAll text="Trending Products" showViewAll />
+      <ViewAll mB={10} text="Trending Products" showViewAll />
 
       <FlatList
         data={products}

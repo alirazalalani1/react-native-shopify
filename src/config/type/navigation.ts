@@ -9,12 +9,13 @@ export type RootStackParamList = {
 export type AppStackParamList = {
   HomeTabs: undefined;
   Home: {productId: string; amount: number};
+  ProductDetail: {productId: string; amount: number};
 };
 
 export type NavigationStackType<T extends ParamListBase = RootStackParamList> =
   StackNavigationProp<T>;
 
 export type ProductDetailProps = {
-  route: RouteProp<AppStackParamList, 'Home'>;
-  navigation: StackNavigationProp<AppStackParamList, 'Home'>;
+  route: RouteProp<AppStackParamList, 'ProductDetail'>;
+  navigation: StackNavigationProp<AppStackParamList, 'ProductDetail'>;
 };

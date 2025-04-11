@@ -1,25 +1,35 @@
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import {Colors, Metrix, SVGS} from '../../../config';
+import {Colors, Metrix} from '../../../config';
 import {Flex, Typography} from '../../index';
+import styles from './style';
+import {Images} from '../../../config/images';
 
 export interface Variant {
-  priceV2?: {
-    amount: string;
+  node: {
+    priceV2?: {
+      amount: string;
+    };
   };
 }
-
 interface ImageData {
-  src: string;
+  node: {
+    src: string;
+  };
 }
-
 interface ProductItem {
-  id: string;
-  images: ImageData[];
-  title: string;
-  variants: Variant[];
+  node: {
+    id: string;
+    images: {
+      edges: ImageData[];
+    };
+    title: string;
+    variants: {
+      edges: Variant[];
+    };
+  };
 }
 
 interface Props {
@@ -50,23 +60,23 @@ const ProductCard: React.FC<Props> = ({item}) => {
       <View
         style={{
           position: 'absolute',
-
           top: Metrix.VerticalSize(10),
           left: Metrix.HorizontalSize(10),
         }}>
         <Flex gap={2}>
-          <Image
-            source={require('../../../assets/images/star.png')}
-            style={styles.starIcon}
-          />
-          <Typography mT={2} size={12} medium>
+          <Image source={Images.RatingStar} style={styles.starIcon} />
+          <Typography mT={2} size={14} medium>
             5.0
           </Typography>
         </Flex>
       </View>
       <Image
         source={{uri: imageData[0]?.node?.src}}
-        style={{width: 100, height: 100}}
+        style={{
+          width: Metrix.HorizontalSize(120),
+          height: Metrix.HorizontalSize(120),
+          backgroundColor: 'pink',
+        }}
       />
 
       <Typography bold color={Colors.textV2} numberOfLines={1}>
@@ -87,35 +97,3 @@ const ProductCard: React.FC<Props> = ({item}) => {
 };
 
 export default ProductCard;
-
-const styles = StyleSheet.create({
-  container: {
-    width: Metrix.HorizontalSize(155),
-    height: Metrix.VerticalSize(200),
-    backgroundColor: Colors.white,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: Colors.greyV4,
-    marginBottom: Metrix.VerticalSize(20),
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-  },
-
-  saleBadgeCont: {
-    width: Metrix.HorizontalSize(50),
-    padding: Metrix.HorizontalSize(4),
-    backgroundColor: '#a3d2a2',
-    position: 'absolute',
-    overflow: 'hidden',
-    // top: Metrix.VerticalSize(20),
-    // borderRadius: 4,
-    right: 0,
-    top: 0,
-    zIndex: 1,
-  },
-  starIcon: {
-    width: Metrix.HorizontalSize(15),
-    height: Metrix.VerticalSize(15),
-  },
-});

@@ -29,6 +29,7 @@ export const Images = {
   AppBackgroundImage: require('../../assets/images/app-bg.png'),
   dummyImage: require('../../assets/images/dummyImage.jpeg'),
   HomeBgGirl: require('../../assets/images/home-bg-final.png'),
+  RatingStar: require('../../assets/images/star.png'),
 };
 
 export const PLACEHOLDER_IMAGE =
