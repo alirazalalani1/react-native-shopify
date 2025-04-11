@@ -1,7 +1,7 @@
 import {Metrix} from '../../config';
 import {Colors} from '../../config/color';
 import {TAB_SVGS} from '../../config/images';
-import {Home, Products} from '../../container';
+import {Home, Products, Wishlist} from '../../container';
 
 type BottomTabConfigType = {
   [key: string]: {
@@ -44,7 +44,7 @@ export const BottomTabConfig = () => {
     },
     Wishlist: {
       screenName: 'Wishlist',
-      component: Products,
+      component: Wishlist,
       icon: (isFocused: boolean) => {
         return (
           <TAB_SVGS.Wishlist

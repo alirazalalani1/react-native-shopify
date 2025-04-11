@@ -20,8 +20,6 @@ const Home = () => {
     setProducts(data?.products?.edges);
   }, [data]);
 
-  console.log('products', products[0]);
-
   return (
     <ScrollView style={styles.container}>
       <Banner

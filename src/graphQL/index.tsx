@@ -113,4 +113,61 @@ const CREATE_CART = gql`
   }
 `;
 
-export {GET_PRODUCTS, CUSTOMER_LOGIN, GET_CUSTOMER, CREATE_CART};
+const GET_CART = gql`
+  query cart($cartId: ID!) {
+    cart(id: $cartId) {
+      id
+      createdAt
+      updatedAt
+      lines(first: 10) {
+        edges {
+          node {
+            id
+            merchandise {
+              ... on ProductVariant {
+                id
+                title
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const ADD_TO_CART = gql`
+  mutation AddToCart($cartId: ID!, $lines: [CartLineInput!]!) {
+    cartLinesAdd(cartId: $cartId, lines: $lines) {
+      cart {
+        id
+        lines(first: 10) {
+          edges {
+            node {
+              id
+              quantity
+              merchandise {
+                ... on ProductVariant {
+                  id
+                  title
+                  priceV2 {
+                    amount
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export {
+  GET_PRODUCTS,
+  CUSTOMER_LOGIN,
+  GET_CUSTOMER,
+  CREATE_CART,
+  GET_CART,
+  ADD_TO_CART,
+};

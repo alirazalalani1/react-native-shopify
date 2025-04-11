@@ -1,5 +1,7 @@
 import {useEffect, useState} from 'react';
 import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
+import {useMutation} from '@apollo/client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {
@@ -12,9 +14,8 @@ import {
 import {ProductDetailProps} from '../../config/type/navigation';
 import {fetchSingleProduct} from '../../shopify';
 import {Colors} from '../../config';
+import {ADD_TO_CART, CREATE_CART} from '../../graphQL';
 import styles from './style';
-import {useMutation} from '@apollo/client';
-import {CREATE_CART} from '../../graphQL';
 
 export interface ProductType {
   id: string;
@@ -26,6 +27,7 @@ export interface ProductType {
 
 const ProductDetail = ({route}: ProductDetailProps) => {
   const {productId, amount} = route.params;
+
   const [product, setProduct] = useState<ProductType | null>(null);
   const [description, setDescription] = useState<string[]>([]);
   const [quantity, setQuantity] = useState(0);
@@ -45,22 +47,57 @@ const ProductDetail = ({route}: ProductDetailProps) => {
     fetchData();
   }, []);
 
-  const increaseQuantity = () => setQuantity(prev => prev + 1);
-  const decreaseQuantity = () => setQuantity(prev => (prev > 0 ? prev - 1 : 0));
+  const increaseQuantity = () => {
+    setQuantity(prev => prev + 1);
+  };
+
+  const decreaseQuantity = () => {
+    setQuantity(prev => prev - 1);
+  };
 
   const [createCart] = useMutation(CREATE_CART, {
-    onCompleted: data => {
-      console.log('Cart created successfully:', data?.cartCreate?.cart?.id);
-      // console.log(
-      //   'Cart created successfully:',
-      //   data?.cartCreate?.cart?.cost?.totalAmount,
-      // );
-      console.log('Cart created successfully:', data?.cartCreate?.cart);
+    onCompleted: async data => {
+      const cartId = data?.cartCreate?.cart?.id;
+      await AsyncStorage.setItem('cartId', cartId);
     },
     onError: error => {
       console.error('Error creating cart:', error);
     },
   });
+
+  const [addToCart] = useMutation(ADD_TO_CART);
+
+  const addToCartHandler = async () => {
+    const cartId = await AsyncStorage.getItem('cartId');
+    await addToCart({
+      variables: {
+        cartId,
+        lines: [
+          {
+            quantity,
+            merchandiseId: product?.variants[0]?.id,
+          },
+        ],
+      },
+      onCompleted: data => {
+        console.log(
+          'Add to cart response:',
+          data?.cartLinesAdd?.cart?.lines?.edges[0]?.node,
+        );
+      },
+      onError: error => {
+        console.error('Error adding to cart:', error);
+      },
+    });
+
+    if (cartId) {
+      console.log('Cart ID:', cartId);
+    } else {
+      createCart();
+    }
+  };
+
+  console.log('Product:', product?.variants[0]?.id);
 
   return (
     <>
@@ -148,7 +185,7 @@ const ProductDetail = ({route}: ProductDetailProps) => {
           mT={24}
           mB={32}
           onPress={() => {
-            createCart();
+            addToCartHandler();
           }}
         />
       </ScrollView>
