@@ -1,33 +1,23 @@
 import {Image, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {AppStackParamList} from '../../../config/type/navigation';
 
 import {Colors, Metrix} from '../../../config';
 import {Flex, Typography} from '../../index';
-import styles from './style';
 import {Images} from '../../../config/images';
+import styles from './style';
 
-export interface Variant {
-  node: {
-    priceV2?: {
-      amount: string;
-    };
-  };
-}
-interface ImageData {
-  node: {
-    src: string;
-  };
-}
 interface ProductItem {
   node: {
     id: string;
     images: {
-      edges: ImageData[];
+      edges: {node: {src: string}}[];
     };
     title: string;
     variants: {
-      edges: Variant[];
+      edges: {node: {priceV2?: {amount: string}}}[];
     };
   };
 }
@@ -37,7 +27,8 @@ interface Props {
 }
 
 const ProductCard: React.FC<Props> = ({item}) => {
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<StackNavigationProp<AppStackParamList, 'ProductDetail'>>();
   const data = item?.node;
   const imageData = item?.node?.images?.edges;
 

@@ -28,7 +28,7 @@ const Wishlist = () => {
 
   const checkoutHandler = async () => {
     const checkoutUrl = await AsyncStorage.getItem('checkoutUrl');
-    Linking.openURL(checkoutUrl);
+    checkoutUrl && Linking.openURL(checkoutUrl);
   };
 
   return (

@@ -8,7 +8,7 @@ type Props = {
   onPress?: () => void;
   mT?: number;
   mB?: number;
-  width?: number | string;
+  width?: number;
   height?: number;
   textSize?: number;
 };
@@ -18,7 +18,7 @@ const Button = ({
   onPress,
   mT = 0,
   mB = 0,
-  width = '100%',
+  width,
   height = 60,
   textSize = 17,
 }: Props) => {
@@ -31,7 +31,7 @@ const Button = ({
         {
           marginTop: Metrix.VerticalSize(mT),
           marginBottom: Metrix.VerticalSize(mB),
-          width: Metrix.HorizontalSize(width),
+          width: width ? Metrix.HorizontalSize(width) : '100%',
           height: Metrix.VerticalSize(height),
         },
       ]}>
@@ -50,7 +50,6 @@ export default Button;
 
 const styles = StyleSheet.create({
   container: {
-    // width: '100%',
     height: Metrix.VerticalSize(60),
     backgroundColor: Colors.black,
     borderRadius: Metrix.Radius,

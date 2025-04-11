@@ -23,6 +23,13 @@ export interface ProductType {
   description: string;
   images: {src: string}[];
   availableForSale?: boolean;
+  variants: {
+    id: string;
+    priceV2: {
+      amount: string;
+      currencyCode: string;
+    };
+  }[];
 }
 
 const ProductDetail = ({route}: ProductDetailProps) => {
@@ -143,7 +150,7 @@ const ProductDetail = ({route}: ProductDetailProps) => {
           </Flex>
         </Flex>
 
-        {amount > 0 && (
+        {Number(amount) > 0 && (
           <Flex justifyContent="space-between">
             <Typography size={18} mT={16} bold color={Colors.black}>
               £{amount}

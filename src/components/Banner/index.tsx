@@ -41,10 +41,11 @@ const styles = StyleSheet.create({
   header: {
     height: Metrix.VerticalSize(350),
     backgroundColor: Colors.lightgreen,
-    marginHorizontal: -24,
-    paddingHorizontal: 24,
+    marginHorizontal: Metrix.HorizontalSize(-24),
+    paddingHorizontal: Metrix.HorizontalSize(24),
     resizeMode: 'repeat',
   },
+
   imgStyle: {
     width: Metrix.HorizontalSize(210),
     height: Metrix.VerticalSize(310),
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
     right: Metrix.HorizontalSize(-25),
     bottom: 0,
   },
+
   headerTextContainer: {
     width: '75%',
   },
