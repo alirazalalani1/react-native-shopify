@@ -10,10 +10,6 @@ import {
 import {Metrix} from '../../config';
 import {styles} from './style';
 
-interface ImageItem {
-  src: string;
-}
-
 const ImagesCarousel = ({data}: any) => {
   const {width} = useWindowDimensions();
   const flatlistRef = useRef<FlatList<any>>(null);
@@ -25,13 +21,15 @@ const ImagesCarousel = ({data}: any) => {
   };
 
   const scrollHandler = (e: any) => {
+    console.log(e);
+
     const contentOffsetX = e.nativeEvent.contentOffset.x;
     const index = Math.floor(contentOffsetX / width);
     setCurrentIndex(index);
   };
 
   return (
-    <>
+    <View style={{backgroundColor: 'pink'}}>
       <FlatList
         ref={flatlistRef}
         data={data || []}
@@ -50,7 +48,26 @@ const ImagesCarousel = ({data}: any) => {
         }}
       />
 
-      <View style={styles.imagesContainer}>
+      <FlatList
+        data={data}
+        horizontal
+        style={styles.flatlist}
+        contentContainerStyle={styles.contentContainerStyles}
+        renderItem={({index, item}) => {
+          return (
+            <TouchableOpacity
+              key={index}
+              onPress={() => {
+                scrollToIndexx(index);
+              }}>
+              <Image source={{uri: item.src}} style={styles.smallImg} />
+              {currentIndex !== index && <View style={styles.overlay}></View>}
+            </TouchableOpacity>
+          );
+        }}
+      />
+
+      {/* <View style={styles.imagesContainer}>
         {data?.map((obj: ImageItem, i: number) => {
           return (
             <TouchableOpacity
@@ -63,8 +80,8 @@ const ImagesCarousel = ({data}: any) => {
             </TouchableOpacity>
           );
         })}
-      </View>
-    </>
+      </View> */}
+    </View>
   );
 };
 

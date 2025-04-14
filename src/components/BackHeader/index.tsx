@@ -6,9 +6,21 @@ import {Flex} from '../index';
 const BackHeader = () => {
   return (
     <Flex style={styles.container}>
-      <SVGS.BackIcon color={Colors.black} width={15} height={15} />
+      <SVGS.BackIcon color={Colors.black} width={20} height={15} />
       <View>
-        <SVGS.Cart width={20} height={20} />
+        <SVGS.Cart
+          width={Metrix.HorizontalSize(25)}
+          height={Metrix.VerticalSize(25)}
+        />
+        <View
+          style={{
+            width: Metrix.HorizontalSize(10),
+            height: Metrix.HorizontalSize(10),
+            borderRadius: 100,
+            backgroundColor: '#fa3e54',
+            position: 'absolute',
+          }}
+        />
       </View>
     </Flex>
   );
@@ -19,8 +31,8 @@ export default BackHeader;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: Metrix.VerticalSize(30),
-    backgroundColor: Colors.lightgreen,
+    height: Metrix.VerticalSize(50),
+    backgroundColor: Colors.white,
     justifyContent: 'space-between',
     paddingHorizontal: Metrix.HorizontalSize(24),
   },

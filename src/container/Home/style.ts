@@ -3,7 +3,7 @@ import {Colors, Metrix} from '../../config';
 
 export const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 24,
+    paddingHorizontal: Metrix.HorizontalSize(24),
     backgroundColor: Colors.white,
     flex: 1,
     marginBottom: Metrix.VerticalSize(74),
@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: Metrix.HorizontalSize(24),
     marginHorizontal: Metrix.HorizontalSize(-24),
     marginTop: Metrix.VerticalSize(22),
+    // backgroundColor: Colors.green,
   },
   contentContainer: {
     paddingTop: Metrix.VerticalSize(2),

@@ -11,6 +11,7 @@ type Props = {
   width?: number;
   height?: number;
   textSize?: number;
+  disabled?: boolean;
 };
 
 const Button = ({
@@ -21,11 +22,13 @@ const Button = ({
   width,
   height = 60,
   textSize = 17,
+  disabled = false,
 }: Props) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={Metrix.ActiveOpacity}
+      disabled={disabled}
       style={[
         styles.container,
         {
@@ -34,6 +37,7 @@ const Button = ({
           width: width ? Metrix.HorizontalSize(width) : '100%',
           height: Metrix.VerticalSize(height),
         },
+        disabled && {backgroundColor: Colors.greyV3},
       ]}>
       <Typography
         textAlign="center"

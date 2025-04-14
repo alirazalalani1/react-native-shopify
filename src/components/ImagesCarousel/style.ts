@@ -6,17 +6,19 @@ export const styles = StyleSheet.create({
     height: 300,
   },
 
-  imagesContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+  flatlist: {
     gap: Metrix.HorizontalSize(8),
-    padding: Metrix.HorizontalSize(10),
-    alignSelf: 'center',
+    maxWidth: Metrix.HorizontalSize(225),
     position: 'absolute',
     backgroundColor: Colors.greyV5,
     borderRadius: Metrix.Radius,
     top: Metrix.VerticalSize(280),
+    alignSelf: 'center',
+  },
+
+  contentContainerStyles: {
+    gap: Metrix.HorizontalSize(8),
+    padding: Metrix.HorizontalSize(10),
   },
 
   smallImg: {

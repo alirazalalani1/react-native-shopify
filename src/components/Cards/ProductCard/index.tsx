@@ -66,7 +66,6 @@ const ProductCard: React.FC<Props> = ({item}) => {
         style={{
           width: Metrix.HorizontalSize(120),
           height: Metrix.HorizontalSize(120),
-          backgroundColor: 'pink',
         }}
       />
 

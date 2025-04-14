@@ -108,11 +108,9 @@ const ProductDetail = ({route}: ProductDetailProps) => {
     }
   };
 
-  console.log('Product:', product?.variants[0]?.id);
-
   return (
     <>
-      <BackHeader />
+      {/* <BackHeader /> */}
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         <ImagesCarousel data={product?.images} />
 
@@ -198,6 +196,7 @@ const ProductDetail = ({route}: ProductDetailProps) => {
           onPress={() => {
             addToCartHandler();
           }}
+          disabled={quantity === 0}
         />
       </ScrollView>
     </>

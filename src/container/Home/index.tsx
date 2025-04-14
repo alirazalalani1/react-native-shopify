@@ -1,10 +1,11 @@
 import {useEffect, useState} from 'react';
-import {FlatList, ScrollView} from 'react-native';
+import {FlatList, ScrollView, View} from 'react-native';
 import {useQuery} from '@apollo/client';
 
 import {Banner, ProductCard, ViewAll} from '../../components';
 import {GET_PRODUCTS} from '../../graphQL';
 import {styles} from './style';
+import {Metrix} from '../../config';
 
 interface Product {
   id: string;
@@ -38,13 +39,13 @@ const Home = () => {
         style={styles.flatlist}
         contentContainerStyle={styles.contentContainer}
         horizontal
-        pagingEnabled
+        // pagingEnabled
         showsHorizontalScrollIndicator={false}
       />
 
       <Banner
         title="Get Your 50% Off!"
-        subtitle=" Labore sunt culpa excepteur culpa ipsum"
+        subtitle="Labore, sunt culpa excepteur culpa ipsum"
         buttonText="Shop Now"
         onPress={() => {}}
       />
