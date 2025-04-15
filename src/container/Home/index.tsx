@@ -6,7 +6,7 @@ import {useQuery} from '@apollo/client';
 import {Banner, ProductCard, ViewAll} from '../../components';
 import {GET_CUSTOMER, GET_PRODUCTS} from '../../graphQL';
 import {styles} from './style';
-import {setUser} from '../../store/slices/auth.slice';
+import {setUser} from '../../store/slices/auth.slice.ts';
 import {IRootState} from '../../store';
 import {ProductItem} from '../../config/type/appDataType';
 

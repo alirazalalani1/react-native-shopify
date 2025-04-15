@@ -4,13 +4,22 @@ import {useMutation} from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import {Button, Flex, ImagesCarousel, Typography} from '../../components';
+import {
+  BackHeader,
+  Button,
+  Flex,
+  ImagesCarousel,
+  Typography,
+} from '../../components';
 import {ProductDetailProps} from '../../config/type/navigation';
 import {fetchSingleProduct} from '../../shopify';
 import {Colors} from '../../config';
 import {ADD_TO_CART, CREATE_CART} from '../../graphQL';
-import {ProductType} from '../../config/type/appDataType';
 import styles from './style';
+import {ProductType} from '../../config/type/appDataType';
+import {useDispatch, useSelector} from 'react-redux';
+import {setCartId, setCheckoutURL} from '../../store/slices/app.slice';
+import {IRootState} from '../../store';
 
 const ProductDetail = ({route}: ProductDetailProps) => {
   const {productId, amount} = route.params;
@@ -18,6 +27,8 @@ const ProductDetail = ({route}: ProductDetailProps) => {
   const [product, setProduct] = useState<ProductType | null>(null);
   const [description, setDescription] = useState<string[]>([]);
   const [quantity, setQuantity] = useState(0);
+  const {cartId} = useSelector((state: IRootState) => state?.app);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,20 +57,21 @@ const ProductDetail = ({route}: ProductDetailProps) => {
     onCompleted: async data => {
       const cartId = data?.cartCreate?.cart?.id;
       const checkoutUrl = data?.cartCreate?.cart?.checkoutUrl;
-      await AsyncStorage.setItem('cartId', cartId);
-      await AsyncStorage.setItem('checkoutUrl', checkoutUrl);
-
-      console.log("'Cart created:', cartId);");
+      dispatch(setCartId(cartId));
+      dispatch(setCheckoutURL(checkoutUrl));
+      //toaster
     },
-    onError: error => {
-      console.error('Error creating cart:', error);
-    },
+    onError: error => {},
   });
 
   const [addToCart] = useMutation(ADD_TO_CART);
 
   const addToCartHandler = async () => {
-    const cartId = await AsyncStorage.getItem('cartId');
+    if (!cartId) {
+      await createCart();
+      return;
+    }
+
     await addToCart({
       variables: {
         cartId,
@@ -70,12 +82,13 @@ const ProductDetail = ({route}: ProductDetailProps) => {
           },
         ],
       },
+      onCompleted: data => {
+        console.log(
+          'Add to cart response:',
+          data?.cartLinesAdd?.cart?.lines?.edges[0]?.node,
+        );
+      },
     });
-
-    if (cartId) {
-    } else {
-      createCart();
-    }
   };
 
   return (

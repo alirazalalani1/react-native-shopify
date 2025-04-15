@@ -1,21 +1,13 @@
-import {useEffect, useState} from 'react';
 import {Linking, StyleSheet, View} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useSelector} from 'react-redux';
 import {useQuery} from '@apollo/client';
 
 import {GET_CART} from '../../graphQL';
 import {Button, Typography} from '../../components';
+import {IRootState} from '../../store';
 
 const Wishlist = () => {
-  const [cartId, setCartId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const getCartId = async () => {
-      const cartId = await AsyncStorage.getItem('cartId');
-      setCartId(cartId);
-    };
-    getCartId();
-  }, []);
+  const {cartId, checkoutURL} = useSelector((state: IRootState) => state.app);
 
   const {data} = useQuery(GET_CART, {
     variables: {
@@ -25,8 +17,7 @@ const Wishlist = () => {
   });
 
   const checkoutHandler = async () => {
-    const checkoutUrl = await AsyncStorage.getItem('checkoutUrl');
-    checkoutUrl && Linking.openURL(checkoutUrl);
+    checkoutURL && Linking.openURL(checkoutURL);
   };
 
   return (
