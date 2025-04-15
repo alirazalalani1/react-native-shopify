@@ -57,3 +57,32 @@ export interface InputFieldProps {
   numPad?: boolean;
   maxLength?: number;
 }
+
+export interface ProductItem {
+  id?: string;
+  node: {
+    id: string;
+    images: {
+      edges: {node: {src: string}}[];
+    };
+    title: string;
+    variants: {
+      edges: {node: {priceV2?: {amount: string}}}[];
+    };
+  };
+}
+
+export interface ProductType {
+  id: string;
+  title: string;
+  description: string;
+  images: {src: string}[];
+  availableForSale?: boolean;
+  variants: {
+    id: string;
+    priceV2: {
+      amount: string;
+      currencyCode: string;
+    };
+  }[];
+}

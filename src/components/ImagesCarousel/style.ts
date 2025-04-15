@@ -4,6 +4,7 @@ import {Colors, Metrix} from '../../config';
 export const styles = StyleSheet.create({
   img: {
     height: 300,
+    resizeMode: 'contain',
   },
 
   flatlist: {

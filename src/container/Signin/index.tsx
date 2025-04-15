@@ -1,10 +1,8 @@
 import {useState} from 'react';
-import {Alert} from 'react-native';
-import {useMutation, useQuery} from '@apollo/client';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useMutation} from '@apollo/client';
 import {useDispatch} from 'react-redux';
 
-import {CUSTOMER_LOGIN, GET_CUSTOMER} from '../../graphQL';
+import {CUSTOMER_LOGIN} from '../../graphQL';
 import {Button, Container, InputField, Typography} from '../../components';
 import {login} from '../../store/slices/auth.slice';
 
@@ -13,41 +11,19 @@ const Signin = () => {
     email: 'waleed@nasir.com',
     password: '1234567',
   });
-
   const dispatch = useDispatch();
+
   const {email, password} = values;
-  const [authToken, setAuthToken] = useState<string | null>(null);
 
   const [loginUser, {loading}] = useMutation(CUSTOMER_LOGIN, {
     onCompleted: async data => {
       const token =
         data.customerAccessTokenCreate.customerAccessToken?.accessToken;
-      const errors = data.customerAccessTokenCreate.userErrors;
-      dispatch(login({user: {email, password}, token: token}));
       if (token) {
-        await AsyncStorage.setItem('shopifyToken', token);
-      } else {
-        Alert.alert('Error', errors[0]?.message || 'Invalid credentials');
+        dispatch(login({token: token}));
       }
     },
-    onError: error => {
-      console.log(error);
-    },
   });
-  const prepareApp = async () => {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    const storedToken = await AsyncStorage.getItem('shopifyToken');
-    setAuthToken(storedToken);
-  };
-
-  prepareApp();
-
-  const {data, error} = useQuery(GET_CUSTOMER, {
-    variables: {customerAccessToken: authToken},
-  });
-  if (error) {
-    console.log('GET_CUSTOMER Error:', error.message);
-  }
 
   const onChangeHandler = (text: string, field: string) => {
     setValues({...values, [field]: text});

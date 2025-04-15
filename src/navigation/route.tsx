@@ -2,41 +2,50 @@ import {Text} from 'react-native';
 import {useEffect, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useSelector} from 'react-redux';
 
 import {Screens} from '../utils/Screens';
+import {IRootState} from '../store';
 import AuthNavigation from './AuthStack';
 import MainNavigation from './MainStacks';
+import {login} from '../store/slices/auth.slice';
 
 const RootStack = createStackNavigator();
 
 const Route = () => {
   const [isReady, setIsReady] = useState(false);
-  const [authToken, setAuthToken] = useState<string | null>(null);
+  const token = useSelector((state: IRootState) => state.auth.token);
+  const [storedToken, setStoredToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const prepareApp = async () => {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      const storedToken = await AsyncStorage.getItem('shopifyToken');
-      setAuthToken(storedToken);
+    const loadToken = async () => {
+      const tokenFromStorage = await AsyncStorage.getItem('shopifyToken');
+      setStoredToken(tokenFromStorage);
+      console.log('funcion called');
+
+      login({token: tokenFromStorage, user: {id: 1}});
       setIsReady(true);
     };
 
-    prepareApp();
+    loadToken();
   }, []);
 
   if (!isReady) {
     return <Text>Loading...</Text>;
   }
 
+  const isLoggedIn = token || storedToken;
+
   return (
-    <RootStack.Navigator
-      initialRouteName={authToken ? Screens.BottomTab : Screens.AuthNavigation}
-      screenOptions={{headerShown: false}}>
-      <RootStack.Screen
-        name={Screens.AuthNavigation}
-        component={AuthNavigation}
-      />
-      <RootStack.Screen name={Screens.BottomTab} component={MainNavigation} />
+    <RootStack.Navigator screenOptions={{headerShown: false}}>
+      {isLoggedIn ? (
+        <RootStack.Screen name={Screens.BottomTab} component={MainNavigation} />
+      ) : (
+        <RootStack.Screen
+          name={Screens.AuthNavigation}
+          component={AuthNavigation}
+        />
+      )}
     </RootStack.Navigator>
   );
 };

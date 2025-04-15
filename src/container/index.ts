@@ -4,5 +4,6 @@ import Home from './Home';
 import Products from './Products';
 import ProductDetail from './ProductDetail';
 import Wishlist from './Wishlist';
+import Profile from './Profile';
 
-export {Signin, Signup, Home, Products, ProductDetail, Wishlist};
+export {Signin, Signup, Home, Products, ProductDetail, Wishlist, Profile};

@@ -1,21 +1,29 @@
 import {useEffect, useState} from 'react';
-import {FlatList, ScrollView, View} from 'react-native';
+import {FlatList, ScrollView} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {useQuery} from '@apollo/client';
 
 import {Banner, ProductCard, ViewAll} from '../../components';
-import {GET_PRODUCTS} from '../../graphQL';
+import {GET_CUSTOMER, GET_PRODUCTS} from '../../graphQL';
 import {styles} from './style';
-import {Metrix} from '../../config';
-
-interface Product {
-  id: string;
-  title: string;
-  images: {src: string}[];
-}
+import {setUser} from '../../store/slices/auth.slice';
+import {IRootState} from '../../store';
+import {ProductItem} from '../../config/type/appDataType';
 
 const Home = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductItem[]>([]);
+  const {token} = useSelector((state: IRootState) => state.auth);
   const {data} = useQuery(GET_PRODUCTS);
+  const dispatch = useDispatch();
+
+  const {data: customerData} = useQuery(GET_CUSTOMER, {
+    variables: {customerAccessToken: token},
+    skip: !token,
+  });
+
+  useEffect(() => {
+    dispatch(setUser(customerData?.customer));
+  }, [customerData]);
 
   useEffect(() => {
     setProducts(data?.products?.edges);
@@ -33,13 +41,13 @@ const Home = () => {
 
       <FlatList
         data={products}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item?.node?.id}
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => <ProductCard item={item} />}
         style={styles.flatlist}
         contentContainerStyle={styles.contentContainer}
         horizontal
-        // pagingEnabled
+        pagingEnabled
         showsHorizontalScrollIndicator={false}
       />
 
@@ -54,7 +62,7 @@ const Home = () => {
 
       <FlatList
         data={products}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item?.node?.id}
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => <ProductCard item={item} />}
         style={styles.flatlist}

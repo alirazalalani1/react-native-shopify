@@ -49,6 +49,7 @@ const GET_CUSTOMER = gql`
     customer(customerAccessToken: $customerAccessToken) {
       id
       displayName
+      email
     }
   }
 `;

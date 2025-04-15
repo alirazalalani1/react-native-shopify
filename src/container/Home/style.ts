@@ -10,13 +10,14 @@ export const styles = StyleSheet.create({
   },
 
   flatlist: {
-    paddingHorizontal: Metrix.HorizontalSize(24),
+    // paddingHorizontal: Metrix.HorizontalSize(24),
     marginHorizontal: Metrix.HorizontalSize(-24),
     marginTop: Metrix.VerticalSize(22),
     // backgroundColor: Colors.green,
   },
   contentContainer: {
     paddingTop: Metrix.VerticalSize(2),
+    paddingHorizontal: Metrix.HorizontalSize(24),
     gap: Metrix.HorizontalSize(12),
   },
   columnWrapper: {

@@ -11,7 +11,8 @@ import NavigationService from './src/config/service/navigation';
 import Route from './src/navigation/route';
 import {Colors} from './src/config';
 import client from './src/apolloClient';
-import store from './src/store';
+import store, {persistor} from './src/store';
+import {PersistGate} from 'redux-persist/es/integration/react';
 
 const App = () => {
   return (
@@ -28,7 +29,9 @@ const App = () => {
           <ApolloProvider client={client}>
             <NavigationContainer ref={NavigationService.navigationRef}>
               <Provider store={store}>
-                <Route />
+                <PersistGate persistor={persistor}>
+                  <Route />
+                </PersistGate>
               </Provider>
             </NavigationContainer>
           </ApolloProvider>

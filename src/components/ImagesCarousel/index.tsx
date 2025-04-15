@@ -12,24 +12,29 @@ import {styles} from './style';
 
 const ImagesCarousel = ({data}: any) => {
   const {width} = useWindowDimensions();
-  const flatlistRef = useRef<FlatList<any>>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const scrollToIndexx = (index: number) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const flatlistRef = useRef<FlatList<any>>(null);
+  const flatlistRef2 = useRef<FlatList>(null);
+
+  const imagesScroll = (index: number) => {
     flatlistRef?.current?.scrollToIndex({animated: true, index: index});
-    setCurrentIndex(index);
+  };
+
+  const suggestedImagesScroll = (index: number) => {
+    flatlistRef2?.current?.scrollToIndex({animated: true, index: index});
   };
 
   const scrollHandler = (e: any) => {
-    console.log(e);
-
     const contentOffsetX = e.nativeEvent.contentOffset.x;
     const index = Math.floor(contentOffsetX / width);
     setCurrentIndex(index);
   };
 
+  // kch to hony laga, pehli pehli bar mmuhubbat ki h, dhola, sham mein khoob hai,
+  // ary rr aryu re kia hua,  tu mmeri adhuri pyas pyas, tmmhn pata tw hgoga
   return (
-    <View style={{backgroundColor: 'pink'}}>
+    <View>
       <FlatList
         ref={flatlistRef}
         data={data || []}
@@ -51,6 +56,8 @@ const ImagesCarousel = ({data}: any) => {
       <FlatList
         data={data}
         horizontal
+        showsHorizontalScrollIndicator={false}
+        ref={flatlistRef2}
         style={styles.flatlist}
         contentContainerStyle={styles.contentContainerStyles}
         renderItem={({index, item}) => {
@@ -58,7 +65,10 @@ const ImagesCarousel = ({data}: any) => {
             <TouchableOpacity
               key={index}
               onPress={() => {
-                scrollToIndexx(index);
+                if (index % 4 === 0) {
+                  suggestedImagesScroll(index);
+                }
+                imagesScroll(index);
               }}>
               <Image source={{uri: item.src}} style={styles.smallImg} />
               {currentIndex !== index && <View style={styles.overlay}></View>}

@@ -1,7 +1,7 @@
 import {Metrix} from '../../config';
 import {Colors} from '../../config/color';
 import {TAB_SVGS} from '../../config/images';
-import {Home, Products, Wishlist} from '../../container';
+import {Home, Products, Profile, Wishlist} from '../../container';
 
 type BottomTabConfigType = {
   [key: string]: {
@@ -60,7 +60,7 @@ export const BottomTabConfig = () => {
     },
     Profile: {
       screenName: 'Profile',
-      component: Products,
+      component: Profile,
       icon: (isFocused: boolean) => {
         return (
           <TAB_SVGS.ProfileTab

@@ -24,8 +24,6 @@ const Wishlist = () => {
     skip: !cartId,
   });
 
-  console.log(data?.cart?.lines?.edges?.length);
-
   const checkoutHandler = async () => {
     const checkoutUrl = await AsyncStorage.getItem('checkoutUrl');
     checkoutUrl && Linking.openURL(checkoutUrl);
@@ -34,7 +32,6 @@ const Wishlist = () => {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       {data?.cart?.lines?.edges?.map((item: any) => {
-        console.log('item', item);
         return (
           <View>
             <Typography color="#000" key={item.node.id}>

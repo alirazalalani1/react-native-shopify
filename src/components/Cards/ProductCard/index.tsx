@@ -8,19 +8,7 @@ import {Colors, Metrix} from '../../../config';
 import {Flex, Typography} from '../../index';
 import {Images} from '../../../config/images';
 import styles from './style';
-
-interface ProductItem {
-  node: {
-    id: string;
-    images: {
-      edges: {node: {src: string}}[];
-    };
-    title: string;
-    variants: {
-      edges: {node: {priceV2?: {amount: string}}}[];
-    };
-  };
-}
+import {ProductItem} from '../../../config/type/appDataType';
 
 interface Props {
   item: ProductItem;

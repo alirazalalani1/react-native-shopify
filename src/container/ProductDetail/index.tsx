@@ -4,33 +4,13 @@ import {useMutation} from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import {
-  BackHeader,
-  Button,
-  Flex,
-  ImagesCarousel,
-  Typography,
-} from '../../components';
+import {Button, Flex, ImagesCarousel, Typography} from '../../components';
 import {ProductDetailProps} from '../../config/type/navigation';
 import {fetchSingleProduct} from '../../shopify';
 import {Colors} from '../../config';
 import {ADD_TO_CART, CREATE_CART} from '../../graphQL';
+import {ProductType} from '../../config/type/appDataType';
 import styles from './style';
-
-export interface ProductType {
-  id: string;
-  title: string;
-  description: string;
-  images: {src: string}[];
-  availableForSale?: boolean;
-  variants: {
-    id: string;
-    priceV2: {
-      amount: string;
-      currencyCode: string;
-    };
-  }[];
-}
 
 const ProductDetail = ({route}: ProductDetailProps) => {
   const {productId, amount} = route.params;
@@ -90,19 +70,9 @@ const ProductDetail = ({route}: ProductDetailProps) => {
           },
         ],
       },
-      onCompleted: data => {
-        console.log(
-          'Add to cart response:',
-          data?.cartLinesAdd?.cart?.lines?.edges[0]?.node,
-        );
-      },
-      onError: error => {
-        console.error('Error adding to cart:', error);
-      },
     });
 
     if (cartId) {
-      console.log('Cart ID:', cartId);
     } else {
       createCart();
     }
