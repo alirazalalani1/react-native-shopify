@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: Metrix.HorizontalSize(10),
     borderBottomWidth: 1,
+    borderColor: Colors.grey,
     // borderBottomColor: Colors.green,
   },
 

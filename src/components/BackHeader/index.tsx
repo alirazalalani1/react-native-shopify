@@ -34,6 +34,6 @@ const styles = StyleSheet.create({
     height: Metrix.VerticalSize(50),
     backgroundColor: Colors.white,
     justifyContent: 'space-between',
-    paddingHorizontal: Metrix.HorizontalSize(24),
+    // paddingHorizontal: Metrix.HorizontalSize(24),
   },
 });

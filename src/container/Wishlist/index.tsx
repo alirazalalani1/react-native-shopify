@@ -1,10 +1,13 @@
-import {Linking, StyleSheet, View} from 'react-native';
+import {Image, Linking, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useQuery} from '@apollo/client';
 
+import {Button, Flex, Typography} from '../../components';
+import {Colors, Metrix, NavigationService} from '../../config';
+import {Screens} from '../../utils/Screens';
 import {GET_CART} from '../../graphQL';
-import {Button, Typography} from '../../components';
 import {IRootState} from '../../store';
+import styles from './style';
 
 const Wishlist = () => {
   const {cartId, checkoutURL} = useSelector((state: IRootState) => state.app);
@@ -21,29 +24,82 @@ const Wishlist = () => {
   };
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      {data?.cart?.lines?.edges?.map((item: any) => {
-        return (
-          <View>
-            <Typography color="#000" key={item.node.id}>
-              {item.node.merchandise.title}qq
-            </Typography>
+    <View style={styles.container}>
+      <View>
+        <Typography size={22} bold mT={32} color={Colors.primary}>
+          Your Orders
+        </Typography>
+        <Typography medium mT={10} color={Colors.textV2}>
+          Total Items: {data?.cart?.totalQuantity}{' '}
+        </Typography>
 
-            <Button
-              title="Buy Now"
-              width={200}
-              mT={16}
-              onPress={() => {
-                checkoutHandler();
-              }}
-            />
-          </View>
-        );
-      })}
+        <View style={styles.freeTextContainer}>
+          <Typography textAlign="center" size={14} medium>
+            Free Shipping For Orders Over £100
+          </Typography>
+        </View>
+
+        {data?.cart?.lines?.edges?.map((item: any) => {
+          const quantity = item.node.quantity;
+          return (
+            <Flex gap={6} style={styles.cartedItemCard} key={item.node.id}>
+              <Image
+                source={{
+                  uri: item?.node?.merchandise?.image?.url,
+                }}
+                style={styles.productImage}
+              />
+
+              <View style={styles.cardContent}>
+                <Flex justifyContent="space-between">
+                  <Typography bold color="#000">
+                    {item?.node?.merchandise?.product?.title}
+                  </Typography>
+
+                  <Typography>x</Typography>
+                </Flex>
+
+                <Typography size={15} medium color={Colors.textV2} mT={6}>
+                  Price: £{item?.node?.merchandise?.priceV2?.amount}
+                </Typography>
+
+                <View style={styles.counterRow}>
+                  <TouchableOpacity
+                    hitSlop={Metrix.HitSlop}
+                    style={styles.counterButton}>
+                    <Typography size={17} textAlign="center">
+                      +
+                    </Typography>
+                  </TouchableOpacity>
+                  <Typography size={18} light>
+                    {quantity}
+                  </Typography>
+                  <TouchableOpacity
+                    hitSlop={Metrix.HitSlop}
+                    style={styles.counterButton}>
+                    <Typography size={17} textAlign="center">
+                      -
+                    </Typography>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Flex>
+          );
+        })}
+      </View>
+
+      <Button
+        title="Buy Now"
+        mT={16}
+        mB={100}
+        onPress={() => {
+          const variantId = data?.cart?.lines?.edges[0]?.node?.merchandise?.id;
+          // checkoutHandler();
+          NavigationService.navigate(Screens.ShippingDetails, {variantId});
+        }}
+      />
     </View>
   );
 };
 
 export default Wishlist;
-
-const styles = StyleSheet.create({});

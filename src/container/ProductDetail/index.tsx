@@ -68,7 +68,18 @@ const ProductDetail = ({route}: ProductDetailProps) => {
 
   const addToCartHandler = async () => {
     if (!cartId) {
-      await createCart();
+      await createCart({
+        variables: {
+          input: {
+            lines: [
+              {
+                quantity,
+                merchandiseId: product?.variants[0]?.id,
+              },
+            ],
+          },
+        },
+      });
       return;
     }
 

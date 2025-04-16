@@ -54,80 +54,12 @@ const GET_CUSTOMER = gql`
   }
 `;
 
-// const CREATE_CART = gql`
-//   mutation CreateCart {
-//     cartCreate {
-//       cart {
-//         id
-//         createdAt
-//         updatedAt
-//         lines(first: 10) {
-//           edges {
-//             node {
-//               id
-//               merchandise {
-//                 ... on ProductVariant {
-//                   id
-//                 }
-//               }
-//             }
-//           }
-//         }
-
-//         buyerIdentity {
-//           deliveryAddressPreferences {
-//             __typename
-//           }
-//           preferences {
-//             delivery {
-//               deliveryMethod
-//             }
-//           }
-//         }
-//         attributes {
-//           key
-//           value
-//         }
-//         cost {
-//           totalAmount {
-//             amount
-//             currencyCode
-//           }
-//           # The estimated amount, before taxes and discounts, for the customer to pay at checkout.
-//           subtotalAmount {
-//             amount
-//             currencyCode
-//           }
-//           # The estimated tax amount for the customer to pay at checkout.
-//           totalTaxAmount {
-//             amount
-//             currencyCode
-//           }
-//           # The estimated duty amount for the customer to pay at checkout.
-//           totalDutyAmount {
-//             amount
-//             currencyCode
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
-
 const CREATE_CART = gql`
-  mutation cartCreate($input: CartInput) {
+  mutation cartCreate($input: CartInput!) {
     cartCreate(input: $input) {
       cart {
         id
         checkoutUrl
-        lines(first: 10) {
-          edges {
-            node {
-              id
-              quantity
-            }
-          }
-        }
       }
       userErrors {
         field
@@ -138,19 +70,34 @@ const CREATE_CART = gql`
 `;
 
 const GET_CART = gql`
-  query cart($cartId: ID!) {
+  query getCart($cartId: ID!) {
     cart(id: $cartId) {
       id
-      createdAt
-      updatedAt
+      totalQuantity
       lines(first: 10) {
         edges {
           node {
             id
+            quantity
             merchandise {
               ... on ProductVariant {
                 id
                 title
+                priceV2 {
+                  amount
+                  currencyCode
+                }
+                image {
+                  url
+                  altText
+                  width
+                  height
+                }
+                product {
+                  id
+                  title
+                  handle
+                }
               }
             }
           }

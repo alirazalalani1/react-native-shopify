@@ -5,5 +5,15 @@ import Products from './Products';
 import ProductDetail from './ProductDetail';
 import Wishlist from './Wishlist';
 import Profile from './Profile';
+import ShippingDetails from './ShippingDetails';
 
-export {Signin, Signup, Home, Products, ProductDetail, Wishlist, Profile};
+export {
+  Signin,
+  Signup,
+  Home,
+  Products,
+  ProductDetail,
+  Wishlist,
+  Profile,
+  ShippingDetails,
+};
