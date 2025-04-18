@@ -39,7 +39,8 @@ const InputField: React.FC<InputFieldProps> = ({
         style={[
           styles.inputContainer,
           {
-            backgroundColor: disabled ? '#EAEAEA' : Colors.whiteV3,
+            // backgroundColor: disabled ? '#EAEAEA' : Colors.whiteV3,
+            backgroundColor: 'white',
             borderWidth: 1,
             borderColor: Colors.greyV2,
           },

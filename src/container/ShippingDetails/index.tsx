@@ -1,6 +1,7 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Linking, View} from 'react-native';
 import {useSelector} from 'react-redux';
+import {useMutation} from '@apollo/client';
 
 import {
   BackHeader,
@@ -11,25 +12,85 @@ import {
 } from '../../components';
 import {Colors} from '../../config';
 import {IRootState} from '../../store';
+import {
+  CREATE_CUSTOMER_ADDRESS,
+  CART_BUYER_IDENTITY_UPDATE,
+} from '../../graphQL';
 import styles from './style';
 
 const ShippingDetails = () => {
-  const {checkoutURL} = useSelector((state: IRootState) => state.app);
+  const {checkoutURL, cartId} = useSelector((state: IRootState) => state.app);
+  const {token, user} = useSelector((state: IRootState) => state.auth);
+
+  const [createAddress] = useMutation(CREATE_CUSTOMER_ADDRESS);
+  const [cartBuyerIdentityUpdate] = useMutation(CART_BUYER_IDENTITY_UPDATE);
+
   const [shippingData, setShippingData] = useState({
     firstName: '',
     lastName: '',
-    mobile: '',
-    address: '',
+    phone: '',
+    address1: '',
     city: '',
     province: '',
     zip: '',
-    country: '',
+    country: 'GB',
   });
 
-  const checkoutHandler = async () => {
-    checkoutURL && Linking.openURL(checkoutURL);
-  };
+  useEffect(() => {
+    if (user?.customer) {
+      const {firstName, lastName, phone} = user.customer;
+      const defaultAddress = user.customer.addresses?.nodes[0];
 
+      setShippingData(prev => ({
+        ...prev,
+        firstName: firstName || '',
+        lastName: lastName || '',
+        phone: phone || '',
+        address1: defaultAddress?.address1 || '',
+        city: defaultAddress?.city || '',
+        province: defaultAddress?.province || '',
+        zip: defaultAddress?.zip || '',
+        country: defaultAddress?.country || 'GB',
+      }));
+    }
+  }, [user]);
+
+  const handleCheckout = async () => {
+    try {
+      await createAddress({
+        variables: {
+          customerAccessToken: token,
+          address: shippingData,
+        },
+      });
+
+      const cartAddress = {
+        address1: shippingData.address1,
+        address2: '',
+        city: shippingData.city,
+        company: '',
+        country: shippingData.country,
+        firstName: shippingData.firstName,
+        lastName: shippingData.lastName,
+        phone: shippingData.phone,
+        province: shippingData.province,
+        zip: shippingData.zip,
+      };
+
+      await cartBuyerIdentityUpdate({
+        variables: {
+          cartId,
+          address: cartAddress,
+        },
+      });
+
+      if (checkoutURL) {
+        Linking.openURL(checkoutURL);
+      }
+    } catch (err) {
+      console.error('Checkout error:', err);
+    }
+  };
   return (
     <View style={styles.container}>
       <BackHeader />
@@ -71,7 +132,7 @@ const ShippingDetails = () => {
       <InputField
         numPad
         placeholder="123456789"
-        value={shippingData.mobile}
+        value={shippingData.phone}
         onChange={(text: string) =>
           setShippingData(prev => ({...prev, mobile: text}))
         }
@@ -114,9 +175,9 @@ const ShippingDetails = () => {
       </Typography>
       <InputField
         placeholder="UK"
-        value={shippingData.address}
+        value={shippingData.address1}
         onChange={(text: string) =>
-          setShippingData(prev => ({...prev, address: text}))
+          setShippingData(prev => ({...prev, address1: text}))
         }
       />
 
@@ -149,13 +210,10 @@ const ShippingDetails = () => {
       </Flex>
 
       <Button
-        title="Checkout"
+        title="Proceed to Payment"
         mT={32}
         mB={100}
-        onPress={() => {
-          console.log('valuess', shippingData);
-          checkoutHandler();
-        }}
+        onPress={handleCheckout}
       />
     </View>
   );

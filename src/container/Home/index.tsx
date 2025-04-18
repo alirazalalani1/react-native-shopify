@@ -22,7 +22,7 @@ const Home = () => {
   });
 
   useEffect(() => {
-    dispatch(setUser(customerData?.customer));
+    dispatch(setUser(customerData));
   }, [customerData]);
 
   useEffect(() => {

@@ -1,16 +1,18 @@
-import {Image, Linking, TouchableOpacity, View} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
-import {useQuery} from '@apollo/client';
+import {useMutation, useQuery} from '@apollo/client';
 
 import {Button, Flex, Typography} from '../../components';
 import {Colors, Metrix, NavigationService} from '../../config';
 import {Screens} from '../../utils/Screens';
-import {GET_CART} from '../../graphQL';
+import {GET_CART, REMOVE_CART, UPDATE_CART} from '../../graphQL';
 import {IRootState} from '../../store';
 import styles from './style';
 
 const Wishlist = () => {
-  const {cartId, checkoutURL} = useSelector((state: IRootState) => state.app);
+  const {cartId} = useSelector((state: IRootState) => state.app);
+  const [updateCart] = useMutation(UPDATE_CART);
+  const [removeCart] = useMutation(REMOVE_CART);
 
   const {data} = useQuery(GET_CART, {
     variables: {
@@ -19,8 +21,36 @@ const Wishlist = () => {
     skip: !cartId,
   });
 
-  const checkoutHandler = async () => {
-    checkoutURL && Linking.openURL(checkoutURL);
+  const handleUpdateCart = (quantity: number, id: number) => {
+    updateCart({
+      variables: {
+        cartId,
+        lines: [{id: id, quantity: quantity}],
+      },
+      refetchQueries: [{query: GET_CART, variables: {cartId}}],
+      onCompleted: () => {
+        console.log('updted succesfully');
+      },
+      onError: error => {
+        console.log('error', error);
+      },
+    });
+  };
+
+  const handleRemove = (lineId: string) => {
+    removeCart({
+      variables: {
+        cartId,
+        lineIds: [lineId],
+      },
+      refetchQueries: [{query: GET_CART, variables: {cartId}}],
+      onCompleted: data => {
+        console.log('removed succesfully', data);
+      },
+      onError: error => {
+        console.log('error', error);
+      },
+    });
   };
 
   return (
@@ -31,6 +61,10 @@ const Wishlist = () => {
         </Typography>
         <Typography medium mT={10} color={Colors.textV2}>
           Total Items: {data?.cart?.totalQuantity}{' '}
+        </Typography>
+
+        <Typography size={15} medium mT={4} color={Colors.black}>
+          Cost: £{data?.cart?.cost?.subtotalAmount?.amount}
         </Typography>
 
         <View style={styles.freeTextContainer}>
@@ -56,7 +90,11 @@ const Wishlist = () => {
                     {item?.node?.merchandise?.product?.title}
                   </Typography>
 
-                  <Typography>x</Typography>
+                  <TouchableOpacity
+                    onPress={() => handleRemove(item.node.id)}
+                    hitSlop={Metrix.HitSlop}>
+                    <Typography>x</Typography>
+                  </TouchableOpacity>
                 </Flex>
 
                 <Typography size={15} medium color={Colors.textV2} mT={6}>
@@ -66,9 +104,12 @@ const Wishlist = () => {
                 <View style={styles.counterRow}>
                   <TouchableOpacity
                     hitSlop={Metrix.HitSlop}
-                    style={styles.counterButton}>
+                    style={styles.counterButton}
+                    onPress={() => {
+                      handleUpdateCart(quantity - 1, item.node.id);
+                    }}>
                     <Typography size={17} textAlign="center">
-                      +
+                      -
                     </Typography>
                   </TouchableOpacity>
                   <Typography size={18} light>
@@ -76,9 +117,12 @@ const Wishlist = () => {
                   </Typography>
                   <TouchableOpacity
                     hitSlop={Metrix.HitSlop}
-                    style={styles.counterButton}>
+                    style={styles.counterButton}
+                    onPress={() => {
+                      handleUpdateCart(quantity + 1, item.node.id);
+                    }}>
                     <Typography size={17} textAlign="center">
-                      -
+                      +
                     </Typography>
                   </TouchableOpacity>
                 </View>

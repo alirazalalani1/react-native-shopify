@@ -86,3 +86,24 @@ export interface ProductType {
     };
   }[];
 }
+
+interface CustomerAddress {
+  address1: string;
+  city: string;
+  province: string;
+  country: string;
+  zip: string;
+}
+
+interface Customer {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  addresses: {
+    nodes: CustomerAddress[];
+  };
+}
+
+export interface CustomerDetailsResponse {
+  customer?: Customer;
+}
