@@ -20,9 +20,7 @@ export const BottomTabConfig = () => {
       screenName: 'Home',
       component: Home,
       icon: (isFocused: boolean) => {
-        return (
-          <TAB_SVGS.HomeTab color={isFocused ? Colors.green : Colors.black} />
-        );
+        return <TAB_SVGS.HomeTab color={Colors.black} />;
       },
       iconGray: '1',
       headerShown: false,
@@ -32,11 +30,7 @@ export const BottomTabConfig = () => {
       screenName: 'Products',
       component: Products,
       icon: (isFocused: boolean) => {
-        return (
-          <TAB_SVGS.ProfileTab
-            color={isFocused ? Colors.green : Colors.textV2}
-          />
-        );
+        return <TAB_SVGS.ProfileTab color={Colors.black} />;
       },
       iconGray: '1',
       headerShown: false,
@@ -50,7 +44,7 @@ export const BottomTabConfig = () => {
           <TAB_SVGS.Wishlist
             width={Metrix.HorizontalSize(25)}
             height={Metrix.VerticalSize(25)}
-            color={isFocused ? Colors.green : Colors.textV2}
+            color={Colors.black}
           />
         );
       },
@@ -62,11 +56,7 @@ export const BottomTabConfig = () => {
       screenName: 'Profile',
       component: Profile,
       icon: (isFocused: boolean) => {
-        return (
-          <TAB_SVGS.ProfileTab
-            color={isFocused ? Colors.green : Colors.textV2}
-          />
-        );
+        return <TAB_SVGS.ProfileTab color={Colors.black} />;
       },
       iconGray: '1',
       headerShown: false,

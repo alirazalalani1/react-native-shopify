@@ -55,7 +55,7 @@ const HomeTabs = () => {
                     size={12}
                     medium={!isFocused}
                     bold={isFocused}
-                    color={isFocused ? Colors.green : Colors.textV2}>
+                    color={Colors.textV2}>
                     {label}
                   </Typography>
                 </TouchableOpacity>

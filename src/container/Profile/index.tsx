@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux';
 import {useQuery} from '@apollo/client';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import {Flex, Typography} from '../../components';
+import {Button, Flex, Typography} from '../../components';
 import {Metrix, Colors} from '../../config';
 import {GET_CUSTOMER} from '../../graphQL';
 import {IRootState} from '../../store';
@@ -16,7 +16,6 @@ const Profile = () => {
   });
 
   const customer = data?.customer;
-
   const address = customer?.defaultAddress;
 
   return (
@@ -59,29 +58,51 @@ const Profile = () => {
       </View>
 
       <View style={styles.section}>
-        <Typography size={18} bold mB={16}>
-          Addresses
-        </Typography>
-
-        <TouchableOpacity style={styles.addressCard} onPress={() => {}}>
-          <Typography bold>{address?.city}</Typography>
-          <Typography>{address?.address1}</Typography>
-          <Typography>
-            {address?.city}, {address?.province}
+        <Flex justifyContent="space-between">
+          <Typography size={18} bold>
+            Address
           </Typography>
-          <Typography>
-            {address?.country}, {address?.zip}
-          </Typography>
-          {/* {address.phone && <Typography>Phone: {address.phone}</Typography>}  */}
-        </TouchableOpacity>
+          <Button title="Edit Address" width={110} textSize={14} height={45} />
+        </Flex>
 
-        <Typography>No saved addresses</Typography>
+        <Flex mB={12}>
+          <Typography size={15} medium>
+            City:{' '}
+          </Typography>
+          <Typography size={14}>{address?.city}</Typography>
+        </Flex>
+
+        <Flex mB={12}>
+          <Typography size={15} medium>
+            Address:{' '}
+          </Typography>
+          <Typography size={14}>{address?.address1}</Typography>
+        </Flex>
+
+        <Flex mB={12} gap={20}>
+          <Flex>
+            <Typography size={15} medium>
+              Country:{' '}
+            </Typography>
+            <Typography size={14}>{address?.country}</Typography>
+          </Flex>
+          <Flex>
+            <Typography size={15} medium>
+              Zip:{' '}
+            </Typography>
+            <Typography size={14}>{address?.zip}</Typography>
+          </Flex>
+        </Flex>
+
+        <Flex>
+          <Typography size={15} medium>
+            Phone:{' '}
+          </Typography>
+          <Typography size={14}>{customer?.phone}</Typography>
+        </Flex>
       </View>
 
-      <TouchableOpacity style={styles.editButton} onPress={() => {}}>
-        <Icon name="edit" size={20} color={Colors.primary} />
-        <Typography color={Colors.primary}>Edit Profile</Typography>
-      </TouchableOpacity>
+      <Button title="Edit Profile" onPress={() => {}} />
     </View>
   );
 };
@@ -139,8 +160,8 @@ const styles = StyleSheet.create({
     borderRadius: Metrix.HorizontalSize(50),
   },
   avatarPlaceholder: {
-    width: Metrix.HorizontalSize(100),
-    height: Metrix.HorizontalSize(100),
+    width: Metrix.HorizontalSize(90),
+    height: Metrix.HorizontalSize(90),
     borderRadius: Metrix.HorizontalSize(50),
     backgroundColor: Colors.primary,
     justifyContent: 'center',
@@ -153,7 +174,7 @@ const styles = StyleSheet.create({
     marginBottom: Metrix.VerticalSize(24),
     paddingBottom: Metrix.VerticalSize(16),
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: Colors.greyV2,
   },
   addressCard: {
     // backgroundColor: Colors.background,
@@ -165,10 +186,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: Metrix.HorizontalSize(12),
-    borderWidth: 1,
-    borderColor: Colors.primary,
-    borderRadius: 8,
-    marginTop: Metrix.VerticalSize(16),
+    // padding: Metrix.HorizontalSize(12),
+    // borderBottomWidth: 1,
+    // borderColor: Colors.primary,
+    // borderRadius: 8,
+    // marginTop: Metrix.VerticalSize(16),
   },
 });

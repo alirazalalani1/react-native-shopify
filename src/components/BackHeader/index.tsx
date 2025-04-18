@@ -1,28 +1,37 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
 
-import {Colors, Metrix, SVGS} from '../../config';
+import {Colors, Metrix, NavigationService, SVGS} from '../../config';
 import {Flex, Typography} from '../index';
 
 const BackHeader = () => {
   return (
     <Flex style={styles.container}>
-      <SVGS.BackIcon color={Colors.black} width={20} height={15} />
+      <TouchableOpacity
+        activeOpacity={Metrix.ActiveOpacity}
+        onPress={() => {
+          NavigationService.goBack();
+        }}
+        hitSlop={Metrix.HitSlop}>
+        <SVGS.BackIcon color={Colors.black} width={20} height={15} />
+      </TouchableOpacity>
       <View>
-        <SVGS.Cart
-          width={Metrix.HorizontalSize(25)}
-          height={Metrix.VerticalSize(25)}
-        />
+        <Icon name="shoppingcart" size={23} color={Colors.primary} />
         <View
           style={{
-            width: Metrix.HorizontalSize(10),
-            height: Metrix.HorizontalSize(10),
+            width: Metrix.HorizontalSize(11),
+            height: Metrix.HorizontalSize(11),
             borderRadius: 100,
-            backgroundColor: '#fa3e54',
+            // backgroundColor: '#fa3e54',
+            backgroundColor: Colors.green,
             position: 'absolute',
             right: 0,
             top: 0,
+            justifyContent: 'center',
           }}>
-          <Typography>3</Typography>
+          <Typography textAlign="center" size={9} bold>
+            3
+          </Typography>
         </View>
       </View>
     </Flex>

@@ -269,6 +269,21 @@ const REMOVE_CART = gql`
   }
 `;
 
+const GET_COLLECTIONS = gql`
+  query {
+    collections(first: 250) {
+      edges {
+        node {
+          id
+          handle
+          title
+          description
+        }
+      }
+    }
+  }
+`;
+
 export {
   GET_PRODUCTS,
   CUSTOMER_LOGIN,
@@ -280,4 +295,5 @@ export {
   UPDATE_CART,
   CREATE_CUSTOMER_ADDRESS,
   REMOVE_CART,
+  GET_COLLECTIONS,
 };
