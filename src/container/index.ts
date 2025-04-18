@@ -6,6 +6,7 @@ import ProductDetail from './ProductDetail';
 import Wishlist from './Wishlist';
 import Profile from './Profile';
 import ShippingDetails from './ShippingDetails';
+import WebViewScreen from './WebView';
 
 export {
   Signin,
@@ -16,4 +17,5 @@ export {
   Wishlist,
   Profile,
   ShippingDetails,
+  WebViewScreen,
 };

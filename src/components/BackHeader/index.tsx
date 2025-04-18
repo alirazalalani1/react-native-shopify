@@ -1,7 +1,7 @@
 import {StyleSheet, View} from 'react-native';
 
 import {Colors, Metrix, SVGS} from '../../config';
-import {Flex} from '../index';
+import {Flex, Typography} from '../index';
 
 const BackHeader = () => {
   return (
@@ -19,8 +19,11 @@ const BackHeader = () => {
             borderRadius: 100,
             backgroundColor: '#fa3e54',
             position: 'absolute',
-          }}
-        />
+            right: 0,
+            top: 0,
+          }}>
+          <Typography>3</Typography>
+        </View>
       </View>
     </Flex>
   );

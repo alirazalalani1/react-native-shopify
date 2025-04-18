@@ -11,6 +11,7 @@ export type AppStackParamList = {
   Home: {productId: string; amount: number};
   ProductDetail: {productId: string; amount: number | string};
   ShippingDetails: {variantId: string};
+  WebViewScreen: undefined;
 };
 
 export type NavigationStackType<T extends ParamListBase = RootStackParamList> =
@@ -24,4 +25,9 @@ export type ProductDetailProps = {
 export type DetailsTakingProps = {
   route: RouteProp<AppStackParamList, 'ShippingDetails'>;
   navigation: StackNavigationProp<AppStackParamList, 'ShippingDetails'>;
+};
+
+export type WebViewScreenProps = {
+  route: RouteProp<AppStackParamList, 'WebViewScreen'>;
+  navigation: StackNavigationProp<AppStackParamList, 'WebViewScreen'>;
 };

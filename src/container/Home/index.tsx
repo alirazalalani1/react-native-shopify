@@ -16,13 +16,17 @@ const Home = () => {
   const {data} = useQuery(GET_PRODUCTS);
   const dispatch = useDispatch();
 
-  const {data: customerData} = useQuery(GET_CUSTOMER, {
+  const {data: customerData, error} = useQuery(GET_CUSTOMER, {
     variables: {customerAccessToken: token},
     skip: !token,
   });
 
   useEffect(() => {
-    dispatch(setUser(customerData));
+    // dispatch(setUser(customerData));
+    console.log('customerData', customerData);
+    if (error) {
+      console.log('error', error);
+    }
   }, [customerData]);
 
   useEffect(() => {

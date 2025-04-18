@@ -1,4 +1,10 @@
-import {Signin, Signup, ProductDetail, ShippingDetails} from '../container';
+import {
+  Signin,
+  Signup,
+  ProductDetail,
+  ShippingDetails,
+  WebViewScreen,
+} from '../container';
 
 import HomeTabs from '../navigation/BottomTabs';
 
@@ -12,6 +18,7 @@ export const Screens = {
   Products: 'Products',
   ProductDetail: 'ProductDetail',
   ShippingDetails: 'ShippingDetails',
+  WebViewScreen: 'WebViewScreen',
 };
 
 type ScreenType = {
@@ -28,6 +35,7 @@ const appScreens: ScreenType[] = [
   {name: Screens.BottomTab, component: HomeTabs},
   {name: Screens.ProductDetail, component: ProductDetail},
   {name: Screens.ShippingDetails, component: ShippingDetails},
+  {name: Screens.WebViewScreen, component: WebViewScreen},
 ];
 
 export {authScreens, appScreens};

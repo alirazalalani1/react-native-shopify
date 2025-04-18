@@ -10,13 +10,14 @@ import {
   InputField,
   Typography,
 } from '../../components';
-import {Colors} from '../../config';
+import {Colors, NavigationService} from '../../config';
 import {IRootState} from '../../store';
 import {
   CREATE_CUSTOMER_ADDRESS,
   CART_BUYER_IDENTITY_UPDATE,
 } from '../../graphQL';
 import styles from './style';
+import {Screens} from '../../utils/Screens';
 
 const ShippingDetails = () => {
   const {checkoutURL, cartId} = useSelector((state: IRootState) => state.app);
@@ -56,40 +57,41 @@ const ShippingDetails = () => {
   }, [user]);
 
   const handleCheckout = async () => {
-    try {
-      await createAddress({
-        variables: {
-          customerAccessToken: token,
-          address: shippingData,
-        },
-      });
+    NavigationService.navigate(Screens.WebViewScreen);
+    // try {
+    //   await createAddress({
+    //     variables: {
+    //       customerAccessToken: token,
+    //       address: shippingData,
+    //     },
+    //   });
 
-      const cartAddress = {
-        address1: shippingData.address1,
-        address2: '',
-        city: shippingData.city,
-        company: '',
-        country: shippingData.country,
-        firstName: shippingData.firstName,
-        lastName: shippingData.lastName,
-        phone: shippingData.phone,
-        province: shippingData.province,
-        zip: shippingData.zip,
-      };
+    //   const cartAddress = {
+    //     address1: shippingData.address1,
+    //     address2: '',
+    //     city: shippingData.city,
+    //     company: '',
+    //     country: shippingData.country,
+    //     firstName: shippingData.firstName,
+    //     lastName: shippingData.lastName,
+    //     phone: shippingData.phone,
+    //     province: shippingData.province,
+    //     zip: shippingData.zip,
+    //   };
 
-      await cartBuyerIdentityUpdate({
-        variables: {
-          cartId,
-          address: cartAddress,
-        },
-      });
+    //   await cartBuyerIdentityUpdate({
+    //     variables: {
+    //       cartId,
+    //       address: cartAddress,
+    //     },
+    //   });
 
-      if (checkoutURL) {
-        Linking.openURL(checkoutURL);
-      }
-    } catch (err) {
-      console.error('Checkout error:', err);
-    }
+    //   if (checkoutURL) {
+    //     Linking.openURL(checkoutURL);
+    //   }
+    // } catch (err) {
+    //   console.error('Checkout error:', err);
+    // }
   };
   return (
     <View style={styles.container}>
