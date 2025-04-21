@@ -13,13 +13,14 @@ import {
 } from '../../components';
 import {ProductDetailProps} from '../../config/type/navigation';
 import {fetchSingleProduct} from '../../shopify';
-import {Colors} from '../../config';
+import {Colors, NavigationService} from '../../config';
 import {ADD_TO_CART, CREATE_CART} from '../../graphQL';
 import styles from './style';
 import {ProductType} from '../../config/type/appDataType';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCartId, setCheckoutURL} from '../../store/slices/app.slice';
 import {IRootState} from '../../store';
+import showToast from '../../utils/showToast';
 
 const ProductDetail = ({route}: ProductDetailProps) => {
   const {productId, amount} = route.params;
@@ -59,9 +60,12 @@ const ProductDetail = ({route}: ProductDetailProps) => {
       const checkoutUrl = data?.cartCreate?.cart?.checkoutUrl;
       dispatch(setCartId(cartId));
       dispatch(setCheckoutURL(checkoutUrl));
-      //toaster
+      showToast({type: 'success', text: 'Added cart successfully'});
+      NavigationService.goBack();
     },
-    onError: error => {},
+    onError: error => {
+      console.log(error);
+    },
   });
 
   const [addToCart] = useMutation(ADD_TO_CART);
@@ -98,6 +102,8 @@ const ProductDetail = ({route}: ProductDetailProps) => {
           'Add to cart response:',
           data?.cartLinesAdd?.cart?.lines?.edges[0]?.node,
         );
+        showToast({type: 'success', text: 'Added cart successfully'});
+        NavigationService.goBack();
       },
     });
   };

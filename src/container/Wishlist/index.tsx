@@ -8,6 +8,7 @@ import {Screens} from '../../utils/Screens';
 import {GET_CART, REMOVE_CART, UPDATE_CART} from '../../graphQL';
 import {IRootState} from '../../store';
 import styles from './style';
+import showToast from '../../utils/showToast';
 
 const Wishlist = () => {
   const {cartId} = useSelector((state: IRootState) => state.app);
@@ -46,6 +47,8 @@ const Wishlist = () => {
       refetchQueries: [{query: GET_CART, variables: {cartId}}],
       onCompleted: data => {
         console.log('removed succesfully', data);
+        showToast({type: 'success', text: 'Cart Removed successfully'});
+        // NavigationService.goBack();
       },
       onError: error => {
         console.log('error', error);

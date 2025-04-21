@@ -13,6 +13,8 @@ import {Colors} from './src/config';
 import client from './src/apolloClient';
 import store, {persistor} from './src/store';
 import {PersistGate} from 'redux-persist/es/integration/react';
+import Toast from 'react-native-toast-message';
+import toastConfig from './src/utils/ToastConfig';
 
 const App = () => {
   return (
@@ -31,6 +33,7 @@ const App = () => {
               <Provider store={store}>
                 <PersistGate persistor={persistor}>
                   <Route />
+                  <Toast config={toastConfig} />
                 </PersistGate>
               </Provider>
             </NavigationContainer>
