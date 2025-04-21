@@ -43,7 +43,7 @@ const HomeTabs = () => {
                         width: Metrix.HorizontalSize(10),
                         height: Metrix.VerticalSize(3),
                         borderRadius: 4,
-                        backgroundColor: Colors.green,
+                        backgroundColor: Colors.lightpink,
                         marginTop: Metrix.VerticalSize(4),
                         marginBottom: Metrix.VerticalSize(1),
                       }}

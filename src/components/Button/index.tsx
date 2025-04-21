@@ -1,4 +1,4 @@
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {ActivityIndicator, StyleSheet, TouchableOpacity} from 'react-native';
 
 import {Colors, Metrix} from '../../config';
 import {Typography} from '../index';
@@ -12,6 +12,7 @@ type Props = {
   height?: number;
   textSize?: number;
   disabled?: boolean;
+  isLoading?: boolean;
 };
 
 const Button = ({
@@ -23,12 +24,13 @@ const Button = ({
   height = 60,
   textSize = 17,
   disabled = false,
+  isLoading = false,
 }: Props) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={Metrix.ActiveOpacity}
-      disabled={disabled}
+      disabled={disabled || isLoading}
       style={[
         styles.container,
         {
@@ -39,13 +41,17 @@ const Button = ({
         },
         disabled && {backgroundColor: Colors.greyV3},
       ]}>
-      <Typography
-        textAlign="center"
-        color={Colors.white}
-        medium
-        size={textSize}>
-        {title}
-      </Typography>
+      {isLoading ? (
+        <ActivityIndicator size={20} color={'#fff'} />
+      ) : (
+        <Typography
+          textAlign="center"
+          color={Colors.white}
+          medium
+          size={textSize}>
+          {title}
+        </Typography>
+      )}
     </TouchableOpacity>
   );
 };

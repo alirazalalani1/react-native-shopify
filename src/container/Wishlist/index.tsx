@@ -53,6 +53,11 @@ const Wishlist = () => {
     });
   };
 
+  const subtotal = data?.cart?.estimatedCost?.subtotalAmount?.amount;
+  const shippingMessage =
+    subtotal >= 100
+      ? "You've qualified for free shipping!"
+      : `Spend £${(100 - subtotal).toFixed(2)} more for free shipping`;
   return (
     <View style={styles.container}>
       <View>
@@ -64,12 +69,12 @@ const Wishlist = () => {
         </Typography>
 
         <Typography size={15} medium mT={4} color={Colors.black}>
-          Cost: £{data?.cart?.cost?.subtotalAmount?.amount}
+          Cost: £{data?.cart?.estimatedCost?.subtotalAmount?.amount || 0}
         </Typography>
 
         <View style={styles.freeTextContainer}>
           <Typography textAlign="center" size={14} medium>
-            Free Shipping For Orders Over £100
+            {shippingMessage}
           </Typography>
         </View>
 

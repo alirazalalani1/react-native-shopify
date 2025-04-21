@@ -15,6 +15,8 @@ interface Props {
 }
 
 const ProductCard: React.FC<Props> = ({item}) => {
+  console.log('item', item?.node);
+
   const navigation =
     useNavigation<StackNavigationProp<AppStackParamList, 'ProductDetail'>>();
   const data = item?.node;

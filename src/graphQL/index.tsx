@@ -124,6 +124,24 @@ const GET_CART = gql`
           }
         }
       }
+      estimatedCost {
+        totalAmount {
+          amount
+          currencyCode
+        }
+        subtotalAmount {
+          amount
+          currencyCode
+        }
+        totalTaxAmount {
+          amount
+          currencyCode
+        }
+        totalDutyAmount {
+          amount
+          currencyCode
+        }
+      }
     }
   }
 `;
@@ -284,6 +302,38 @@ const GET_COLLECTIONS = gql`
   }
 `;
 
+const GET_SELECTED_COLLECTION = gql`
+  query getSelectedCollection($id: ID!) {
+    collection(id: $id) {
+      handle
+      products(first: 10) {
+        edges {
+          node {
+            id
+            title
+            variants(first: 1) {
+              edges {
+                node {
+                  priceV2 {
+                    amount
+                  }
+                }
+              }
+            }
+            images(first: 10) {
+              edges {
+                node {
+                  src
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export {
   GET_PRODUCTS,
   CUSTOMER_LOGIN,
@@ -296,4 +346,5 @@ export {
   CREATE_CUSTOMER_ADDRESS,
   REMOVE_CART,
   GET_COLLECTIONS,
+  GET_SELECTED_COLLECTION,
 };

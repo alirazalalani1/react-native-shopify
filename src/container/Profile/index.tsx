@@ -20,89 +20,96 @@ const Profile = () => {
 
   return (
     <View style={styles.container}>
-      <Flex gap={16} style={styles.profileHeader}>
-        <View style={styles.avatarContainer}>
-          {customer?.image?.url ? (
-            <Image source={{uri: customer.image.url}} style={styles.avatar} />
-          ) : (
-            <View style={styles.avatarPlaceholder}>
-              <Icon name="person" size={40} color={Colors.white} />
-            </View>
-          )}
+      <View>
+        <Flex gap={16} style={styles.profileHeader}>
+          <View style={styles.avatarContainer}>
+            {customer?.image?.url ? (
+              <Image source={{uri: customer.image.url}} style={styles.avatar} />
+            ) : (
+              <View style={styles.avatarPlaceholder}>
+                <Icon name="person" size={40} color={Colors.white} />
+              </View>
+            )}
+          </View>
+
+          <View style={styles.userInfo}>
+            <Typography size={20} bold>
+              {customer?.firstName} {customer?.lastName}
+            </Typography>
+            <Typography color={Colors.textV2}>{customer?.email}</Typography>
+          </View>
+        </Flex>
+
+        <View style={styles.section}>
+          <Typography size={18} bold mB={16}>
+            Account Details
+          </Typography>
+
+          <ProfileItem icon="email" label="Email" value={customer?.email} />
+          <ProfileItem
+            icon="phone"
+            label="Phone"
+            value={customer?.phone || 'Not provided'}
+          />
+          <ProfileItem
+            icon="cake"
+            label="Member Since"
+            value={new Date(customer?.createdAt).toLocaleDateString()}
+          />
         </View>
 
-        <View style={styles.userInfo}>
-          <Typography size={20} bold>
-            {customer?.firstName} {customer?.lastName}
-          </Typography>
-          <Typography color={Colors.textV2}>{customer?.email}</Typography>
+        <View style={[styles.section, {borderBottomWidth: 0}]}>
+          <Flex justifyContent="space-between">
+            <Typography size={18} bold>
+              Address
+            </Typography>
+            <Button
+              title="Edit Address"
+              width={110}
+              textSize={14}
+              height={45}
+            />
+          </Flex>
+
+          <Flex mB={12}>
+            <Typography size={15} medium>
+              City:{' '}
+            </Typography>
+            <Typography size={14}>{address?.city}</Typography>
+          </Flex>
+
+          <Flex mB={12}>
+            <Typography size={15} medium>
+              Address:{' '}
+            </Typography>
+            <Typography size={14}>{address?.address1}</Typography>
+          </Flex>
+
+          <Flex mB={12} gap={20}>
+            <Flex>
+              <Typography size={15} medium>
+                Country:{' '}
+              </Typography>
+              <Typography size={14}>{address?.country}</Typography>
+            </Flex>
+            <Flex>
+              <Typography size={15} medium>
+                Zip:{' '}
+              </Typography>
+              <Typography size={14}>{address?.zip}</Typography>
+            </Flex>
+          </Flex>
+
+          <Flex>
+            <Typography size={15} medium>
+              Phone:{' '}
+            </Typography>
+            <Typography size={14}>{customer?.phone}</Typography>
+          </Flex>
         </View>
-      </Flex>
-
-      <View style={styles.section}>
-        <Typography size={18} bold mB={16}>
-          Account Details
-        </Typography>
-
-        <ProfileItem icon="email" label="Email" value={customer?.email} />
-        <ProfileItem
-          icon="phone"
-          label="Phone"
-          value={customer?.phone || 'Not provided'}
-        />
-        <ProfileItem
-          icon="cake"
-          label="Member Since"
-          value={new Date(customer?.createdAt).toLocaleDateString()}
-        />
       </View>
 
-      <View style={styles.section}>
-        <Flex justifyContent="space-between">
-          <Typography size={18} bold>
-            Address
-          </Typography>
-          <Button title="Edit Address" width={110} textSize={14} height={45} />
-        </Flex>
-
-        <Flex mB={12}>
-          <Typography size={15} medium>
-            City:{' '}
-          </Typography>
-          <Typography size={14}>{address?.city}</Typography>
-        </Flex>
-
-        <Flex mB={12}>
-          <Typography size={15} medium>
-            Address:{' '}
-          </Typography>
-          <Typography size={14}>{address?.address1}</Typography>
-        </Flex>
-
-        <Flex mB={12} gap={20}>
-          <Flex>
-            <Typography size={15} medium>
-              Country:{' '}
-            </Typography>
-            <Typography size={14}>{address?.country}</Typography>
-          </Flex>
-          <Flex>
-            <Typography size={15} medium>
-              Zip:{' '}
-            </Typography>
-            <Typography size={14}>{address?.zip}</Typography>
-          </Flex>
-        </Flex>
-
-        <Flex>
-          <Typography size={15} medium>
-            Phone:{' '}
-          </Typography>
-          <Typography size={14}>{customer?.phone}</Typography>
-        </Flex>
-      </View>
-
-      <Button title="Edit Profile" onPress={() => {}} />
+      <Button title="Edit Profile" mB={70} onPress={() => {}} />
     </View>
   );
 };
@@ -142,6 +149,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: Metrix.HorizontalSize(24),
     backgroundColor: Colors.white,
+    justifyContent: 'space-between',
   },
   profileHeader: {
     alignItems: 'center',

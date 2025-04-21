@@ -1,47 +1,93 @@
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
-import {Colors, Metrix} from '../../config';
+import {useEffect, useState} from 'react';
+import {ActivityIndicator, FlatList, View} from 'react-native';
 import {useQuery} from '@apollo/client';
-import {GET_COLLECTIONS} from '../../graphQL';
-import {ProductCard, ViewAll} from '../../components';
+
+import {ProductCard, Stepper, Typography} from '../../components';
+import {Colors} from '../../config';
+import {GET_COLLECTIONS, GET_SELECTED_COLLECTION} from '../../graphQL';
+import {styles} from '../Home/style';
+import {HomeSkeleton} from '../../components/Skeletons';
 
 const Products = () => {
   const {data} = useQuery(GET_COLLECTIONS);
-  console.log('data', data?.collections?.edges[0]?.node);
+  const [selectedCategory, setSelectedCategory] = useState({
+    category: data?.collections.edges[0].node.handle.replace(/-/g, '_'),
+    id: data?.collections.edges[0].node.id,
+  });
+
+  useEffect(() => {
+    if (data?.collections?.edges?.length > 0) {
+      const firstCollection = data.collections.edges[0].node;
+      setSelectedCategory({
+        category: firstCollection.handle.replace(/-/g, '_'),
+        id: firstCollection.id,
+      });
+    }
+  }, [data]);
+
+  const {
+    data: collectionData,
+    error,
+    loading,
+  } = useQuery(GET_SELECTED_COLLECTION, {
+    variables: {
+      id: selectedCategory.id,
+      // handle: selectedCategory.category.replace(/-/g, '_'),
+      skip: !selectedCategory.id,
+    },
+  });
+
+  console.log('collectionData', !collectionData?.collection);
+  if (error) {
+    console.log('error', error);
+  }
+
+  const getCategory = (category: string, id: number) => {
+    setSelectedCategory({category, id});
+  };
 
   return (
     <View style={styles.container}>
-      <ViewAll text="Products" />
+      <Typography bold size={18} mT={32} color={Colors.primary}>
+        Our Products
+      </Typography>
 
-      <View style={{height: 60}}>
-        <FlatList
-          data={data?.collections?.edges}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={{backgroundColor: 'lightblue', height: 60}}
-          renderItem={({item}) => {
-            return (
+      <Stepper steps={data?.collections?.edges} getCategory={getCategory} />
+
+      {loading ? (
+        <HomeSkeleton data={[1, 2, 3, 4, 5, 6]} />
+      ) : (
+        <View style={{flex: 1}}>
+          <FlatList
+            data={collectionData?.collection?.products?.edges}
+            keyExtractor={item => item?.node?.id}
+            showsVerticalScrollIndicator={false}
+            renderItem={({item}) => <ProductCard item={item} />}
+            style={styles.flatlist}
+            contentContainerStyle={[
+              styles.contentContainer,
+              {flex: collectionData?.collection ? 0 : 1},
+            ]}
+            columnWrapperStyle={styles.columnWrapper}
+            numColumns={2}
+            showsHorizontalScrollIndicator={false}
+            ListEmptyComponent={
               <View
                 style={{
-                  width: 120,
-                  height: 50,
-                  backgroundColor: 'pink',
-                  marginRight: 10,
-                }}></View>
-            );
-          }}
-        />
-      </View>
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Typography size={30} bold textAlign="center">
+                  No data
+                </Typography>
+              </View>
+            }
+          />
+        </View>
+      )}
     </View>
   );
 };
 
 export default Products;
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: Metrix.HorizontalSize(24),
-    backgroundColor: Colors.white,
-    flex: 1,
-  },
-});

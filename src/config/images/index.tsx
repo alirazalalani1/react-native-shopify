@@ -1,6 +1,8 @@
 import SearchIcon from '../../assets/images/search-icon.svg';
 import BackIcon from '../../assets/images/back-icon.svg';
 import Logo from '../../assets/images/logo.svg';
+import EyeOpen from '../../assets/images/eye-open.svg';
+import EyeClose from '../../assets/images/eye-close.svg';
 
 import HomeTab from '../../assets/images/home-tab.svg';
 import HomeTabActive from '../../assets/images/home-tab-active.svg';
@@ -23,6 +25,8 @@ export const SVGS = {
   BackIcon,
   Logo,
   Cart,
+  EyeOpen,
+  EyeClose,
 };
 
 export const Images = {

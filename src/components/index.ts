@@ -10,6 +10,7 @@ import InputField from './TextInput';
 import ViewAll from './ViewAll';
 import Banner from './Banner';
 import BackHeader from './BackHeader';
+import Stepper from './Stepper';
 
 export {
   BottomTab,
@@ -24,4 +25,5 @@ export {
   ViewAll,
   Banner,
   BackHeader,
+  Stepper,
 };

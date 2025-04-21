@@ -9,11 +9,12 @@ import {styles} from './style';
 import {setUser} from '../../store/slices/auth.slice.ts';
 import {IRootState} from '../../store';
 import {ProductItem} from '../../config/type/appDataType';
+import {HomeSkeleton} from '../../components/Skeletons/index.tsx';
 
 const Home = () => {
   const [products, setProducts] = useState<ProductItem[]>([]);
   const {token} = useSelector((state: IRootState) => state.auth);
-  const {data} = useQuery(GET_PRODUCTS);
+  const {data, loading} = useQuery(GET_PRODUCTS);
   const dispatch = useDispatch();
 
   const {data: customerData, error} = useQuery(GET_CUSTOMER, {
@@ -22,8 +23,7 @@ const Home = () => {
   });
 
   useEffect(() => {
-    // dispatch(setUser(customerData));
-    console.log('customerData', customerData);
+    dispatch(setUser(customerData));
     if (error) {
       console.log('error', error);
     }
@@ -43,17 +43,21 @@ const Home = () => {
       />
       <ViewAll mB={10} text="Trending Products" showViewAll />
 
-      <FlatList
-        data={products}
-        keyExtractor={item => item?.node?.id}
-        showsVerticalScrollIndicator={false}
-        renderItem={({item}) => <ProductCard item={item} />}
-        style={styles.flatlist}
-        contentContainerStyle={styles.contentContainer}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-      />
+      {loading ? (
+        <HomeSkeleton data={[1, 2]} />
+      ) : (
+        <FlatList
+          data={products}
+          keyExtractor={item => item?.node?.id}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => <ProductCard item={item} />}
+          style={styles.flatlist}
+          contentContainerStyle={styles.contentContainer}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+        />
+      )}
 
       <Banner
         title="Get Your 50% Off!"
@@ -64,18 +68,22 @@ const Home = () => {
 
       <ViewAll text="New Arrivals" showViewAll />
 
-      <FlatList
-        data={products}
-        keyExtractor={item => item?.node?.id}
-        showsVerticalScrollIndicator={false}
-        renderItem={({item}) => <ProductCard item={item} />}
-        style={styles.flatlist}
-        contentContainerStyle={styles.contentContainer}
-        columnWrapperStyle={styles.columnWrapper}
-        numColumns={2}
-        showsHorizontalScrollIndicator={false}
-        scrollEnabled={false}
-      />
+      {loading ? (
+        <HomeSkeleton data={[1, 2, 3, 4, 5, 6]} />
+      ) : (
+        <FlatList
+          data={products}
+          keyExtractor={item => item?.node?.id}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => <ProductCard item={item} />}
+          style={styles.flatlist}
+          contentContainerStyle={styles.contentContainer}
+          columnWrapperStyle={styles.columnWrapper}
+          numColumns={2}
+          showsHorizontalScrollIndicator={false}
+          scrollEnabled={false}
+        />
+      )}
     </ScrollView>
   );
 };

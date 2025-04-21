@@ -8,20 +8,21 @@ import {login} from '../../store/slices/auth.slice';
 
 const Signin = () => {
   const [values, setValues] = useState({
-    email: 'waleed@nasir.com',
-    password: '1234567',
+    email: '',
+    password: '',
   });
   const dispatch = useDispatch();
 
   const {email, password} = values;
 
-  const [loginUser, {loading}] = useMutation(CUSTOMER_LOGIN, {
+  const [loginUser, {loading, error}] = useMutation(CUSTOMER_LOGIN, {
     onCompleted: async data => {
       const token =
         data.customerAccessTokenCreate.customerAccessToken?.accessToken;
       if (token) {
         dispatch(login({token: token}));
       }
+      console.log('success');
     },
   });
 
@@ -55,13 +56,14 @@ const Signin = () => {
         onChange={(text: string) => {
           onChangeHandler(text, 'password');
         }}
-        secureTextEntry
+        isPassword
       />
 
       <Button
-        title={loading ? 'Logging in...' : 'Login'}
+        title={'Login'}
         onPress={() => loginUser({variables: {email, password}})}
         mT={50}
+        isLoading={loading}
       />
     </Container>
   );

@@ -23,7 +23,7 @@ const BackHeader = () => {
             height: Metrix.HorizontalSize(11),
             borderRadius: 100,
             // backgroundColor: '#fa3e54',
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.lightpink,
             position: 'absolute',
             right: 0,
             top: 0,
